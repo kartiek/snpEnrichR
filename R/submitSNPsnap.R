@@ -61,16 +61,30 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
   else if ( max_ld_buddy_count_deviation < 1 ) {
     stop("invalid max_ld_buddy_count_deviation. max_ld_buddy_count_deviation must be greater than or equal to 1", call. = FALSE)
   }
+  valid_lds <- seq(0.1,0.9,0.1)
   if(missing(ld_buddy_cutoff)){ld_buddy_cutoff <- 0.5}
+  else if ( !(ld_buddy_cutoff %in%  valid_lds) ) {
+    stop("invalid ld. Value must be one of: ",
+         paste( valid_lds, collapse = ", "), call. = FALSE)
+  }
   else{ld_buddy_cutoff <- match.arg(ld_buddy_cutoff)}
   if(missing(N_sample_sets)){N_sample_sets <- 10000}
-  else if ( N_sample_sets < 1 ) {
+  else if ( N_sample_sets < 1 || N_sample_sets > 20000) {
     stop("invalid N_sample_sets. N_sample_sets must be between 1 and 20000", call. = FALSE)
   }
   if(missing(annotate_matched)){annotate_matched <- FALSE}
   if(missing(annotate_input)){annotate_input <- FALSE}
   if(missing(clump_input)){clump_input <- TRUE}
   if ( clump_input == TRUE ){
+    if ( !(clump_r2 %in%  valid_lds) ) {
+      stop("invalid clumping ld. Value must be one of: ",
+           paste( valid_lds, collapse = ", "), call. = FALSE)
+    }
+    valid_kbs = seq(100,1000,100)
+    if ( !(clump_kb %in%  valid_kbs) ) {
+      stop("invalid clumping distance. Value must be one of: ",
+           paste( valid_kbs, collapse = ", "), call. = FALSE)
+    }
     clump_r2 <- match.arg(clump_r2)
     clump_kb <- match.arg(clump_kb)
   }
@@ -119,11 +133,11 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
       remDr$findElement(using = 'name', value = "clump_r2")$sendKeysToElement(list(as.character(clump_r2)))
       remDr$findElement(using = 'name', value = "clump_kb")$sendKeysToElement(list(as.character(clump_kb)))
     }}
-  if(exclude_input_SNPs == FALSE){
+  if(exclude_input_SNPs == TRUE){
     if(remDr$findElement(using = 'id', value = 'exclude_input_SNPs')$isElementSelected() == FALSE){
       remDr$findElement(using = 'id', value = 'exclude_input_SNPs')$clickElement()
     }}
-  if(exclude_HLA_SNPs == FALSE){
+  if(exclude_HLA_SNPs == TRUE){
     if(remDr$findElement(using = 'id', value = 'exclude_HLA_SNPs')$isElementSelected() == FALSE){
     remDr$findElement(using = 'id', value = 'exclude_HLA_SNPs')$clickElement()
     }}
