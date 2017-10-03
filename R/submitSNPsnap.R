@@ -36,7 +36,8 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
                           email_address, job_name){
   library(RSelenium)
   tFile <- tempfile(fileext = '.txt')
-  readr::write_tsv(snplist,tFile)
+  # is.vector(UC.table[,1])
+  readr::write_tsv(as.data.frame(snplist),tFile)
   if(missing(super_population)){super_population <- 'EUR'}
   else{ super_population <- match.arg(super_population) }
   if (missing(distance_type)){distance_type <- 'ld'}
@@ -91,9 +92,10 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
   if(missing(exclude_input_SNPs)){exclude_input_SNPs <- TRUE}
   if(missing(exclude_HLA_SNPs)){exclude_HLA_SNPs <- TRUE}
   if(missing(job_name)){job_name <- 'testJob'}
+  if(! is.character(job_name))  {stop("Parameter job_name should be a string.", call. = FALSE)}
   if(missing(email_address)){
-    stop("Please provide an email address", call. = FALSE)
-  }
+    stop("Please provide an email address", call. = FALSE) }
+  else if(! is.character(email_address))  {stop("Parameter email_address should be a string.", call. = FALSE)}
   rD <- rsDriver(verbose = FALSE)
   remDr <- rD$client
   remDr$navigate("https://data.broadinstitute.org/mpg/snpsnap/match_snps.html")
