@@ -93,21 +93,41 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
     remDr$findElement(using = 'id', value = 'ld_distance_type')$clickElement()
     remDr$findElement(using = 'id', value = "ld_distance_cutoff")$sendKeysToElement(list(as.character(distance)))
   }
+  remDr$findElement(using = 'name', value = "max_freq_deviation")$clearElement()
   remDr$findElement(using = 'name', value = "max_freq_deviation")$sendKeysToElement(list(as.character(max_freq_deviation)))
+  remDr$findElement(using = 'name', value = "max_genes_count_deviation")$clearElement()
   remDr$findElement(using = 'name', value = "max_genes_count_deviation")$sendKeysToElement(list(as.character(max_genes_count_deviation)))
+  remDr$findElement(using = 'name', value = "max_distance_deviation")$clearElement()
   remDr$findElement(using = 'name', value = "max_distance_deviation")$sendKeysToElement(list(as.character(max_distance_deviation)))
+  remDr$findElement(using = 'name', value = "max_ld_buddy_count_deviation")$clearElement()
   remDr$findElement(using = 'name', value = "max_ld_buddy_count_deviation")$sendKeysToElement(list(as.character(max_ld_buddy_count_deviation)))
+  
   remDr$findElement(using = 'name', value = "ld_buddy_cutoff")$sendKeysToElement(list(as.character(ld_buddy_cutoff)))
+  remDr$findElement(using = 'name', value = "N_sample_sets")$clearElement()
   remDr$findElement(using = 'name', value = "N_sample_sets")$sendKeysToElement(list(as.character(N_sample_sets)))
-  if(annotate_matched == TRUE){remDr$findElement(using = 'id', value = 'set_file')$clickElement()}
-  if(annotate_input == TRUE){remDr$findElement(using = 'id', value = 'annotate')$clickElement()}
+  if(annotate_matched == TRUE){
+    if(remDr$findElement(using = 'id', value = 'set_file')$isElementSelected() == FALSE){
+      remDr$findElement(using = 'id', value = 'set_file')$clickElement()
+    }}
+  if(annotate_input == TRUE){
+    if(remDr$findElement(using = 'id', value = 'annotate')$isElementSelected() == FALSE){
+      remDr$findElement(using = 'id', value = 'annotate')$clickElement()
+    }}
   if(clump_input == TRUE){
-    remDr$findElement(using = 'id', value = 'clump')$clickElement()
-    remDr$findElement(using = 'name', value = "clump_r2")$sendKeysToElement(list(as.character(clump_r2)))
-    remDr$findElement(using = 'name', value = "clump_kb")$sendKeysToElement(list(as.character(clump_kb)))
-  }
-  if(exclude_input_SNPs == FALSE){remDr$findElement(using = 'id', value = 'exclude_input_SNPs')$clickElement()}
-  if(exclude_HLA_SNPs == FALSE){remDr$findElement(using = 'id', value = 'exclude_HLA_SNPs')$clickElement()}
+    if(remDr$findElement(using = 'id', value = 'clump')$isElementSelected() == FALSE){
+      remDr$findElement(using = 'id', value = 'clump')$clickElement()
+      remDr$findElement(using = 'name', value = "clump_r2")$sendKeysToElement(list(as.character(clump_r2)))
+      remDr$findElement(using = 'name', value = "clump_kb")$sendKeysToElement(list(as.character(clump_kb)))
+    }}
+  if(exclude_input_SNPs == FALSE){
+    if(remDr$findElement(using = 'id', value = 'exclude_input_SNPs')$isElementSelected() == FALSE){
+      remDr$findElement(using = 'id', value = 'exclude_input_SNPs')$clickElement()
+    }}
+  if(exclude_HLA_SNPs == FALSE){
+    if(remDr$findElement(using = 'id', value = 'exclude_HLA_SNPs')$isElementSelected() == FALSE){
+    remDr$findElement(using = 'id', value = 'exclude_HLA_SNPs')$clickElement()
+    }}
+  remDr$findElement(using = 'name', value = "job_name")$clearElement()
   remDr$findElement(using = 'name', value = "job_name")$sendKeysToElement(list(job_name))
   remDr$findElement(using = 'name', value = "email_address")$sendKeysToElement(list(email_address))
   remDr$findElement(using = 'class', value = 'btn-success')$clickElement()
