@@ -2,7 +2,7 @@
 #'
 #' @param matchedSNPfile matched_snps.txt file from SNPsnap server
 #' @param proxiesFile File containing proxies
-#' @param featureObj Feature object for which encirhment has to be calculated
+#' @param featureObj Feature object for which enrichment has to be calculated
 #'
 #' @return Returns p.value
 #' @export
