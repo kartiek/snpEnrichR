@@ -30,8 +30,6 @@ findProxies(path2RefDir, path2leadSNPList, proxyWindow = 1000,
 \item{useGENO, }{a logical value to decide whether geno pameter is used;  default is TRUE}
 
 \item{geno}{plink parameter 0.1; default is  0.1}
-
-\item{referenceDir}{}
 }
 \description{
 Submit list of SNPs to SNPsnap server
