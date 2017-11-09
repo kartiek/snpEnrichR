@@ -6,7 +6,7 @@
 #' @param corrCoeff 
 #' @param distance 
 #'
-#' @return Returns snp list with clumped SNP buddies
+#' @return Returns SNP list with clumped SNP buddies
 #' @export
 #'
 #' @examples
