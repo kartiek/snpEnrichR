@@ -1,26 +1,23 @@
 #' Title
 #'
 #' @param plinkPathPrefix 
-#' @param SNPsPath 
+#' @param snplist 
 #' @param outputPath 
 #' @param corrCoeff 
 #' @param distance 
 #'
-#' @return
+#' @return Returns snp list with clumped SNP buddies
 #' @export
 #'
 #' @examples
-clumpSNPs <- function(plinkPathPrefix,SNPsPath,outputPath,corrCoeff,distance) {
-  library(tidyverse)
-  
-    snps <- as.data.frame(read_tsv(SNPsPath,col_names="SNP",col_types = "c"))
-    P=rep(0,length=nrow(snps))
-    snps <- cbind(snps,P)
+clumpSNPs <- function(plinkPathPrefix,snplist,outputPath,corrCoeff,distance) {
+    P=rep(0,length=length(snplist))
+    snps <- cbind(SNP=snplist,P)
     
     print('SNPS read')
     tmpfilename <- tempfile(fileext = '.txt')
 
-    write_tsv(snps,tmpfilename)
+    write.table(snps,file=tmpfilename,quote=F,sep="\t",row.names = F)
     print('TMP file  created')
     cmdstr <- sprintf('plink --bfile %s --clump %s --clump-r2 %f --clump-kb %i --out %s',plinkPathPrefix,
                       tmpfilename,
@@ -33,9 +30,8 @@ clumpSNPs <- function(plinkPathPrefix,SNPsPath,outputPath,corrCoeff,distance) {
     res <- read.table(paste(tmpfilename,'clumped',sep="."),stringsAsFactors = F)
     colnames(res)<-res[1,]
     res <- res[-1,]
-    nonclumpedSNPs <- as.data.frame(res$SNP)
-    write_tsv(nonclumpedSNPs,outputPath,col_names = F)
-    print(sprintf('Clumped SNPs written to %s',outputPath))  
+    nonclumpedSNPs <- res$SNP
+
     
 }
   
