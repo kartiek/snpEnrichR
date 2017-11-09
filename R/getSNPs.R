@@ -5,8 +5,10 @@
 #' @return Returns a data fram of SNPs from EBI's server
 #' @export
 #' @import httr
+#' @importFrom utils URLdecode URLencode
 #'
 #' @examples
+#' getSNPs('breast cancer')
 
 
 getSNPs <- function(queryTerm) {
@@ -16,7 +18,7 @@ getSNPs <- function(queryTerm) {
   url <- build_url(url)
   dat <- content(GET(url), as = 'text', encoding = 'UTF-8')
   tmp <- unlist( strsplit( dat, "\r\n", fixed = TRUE ) )
-  ## This following split_to_df function is originally from rsnps package.
+  ## This following split_to_df function is originally from rsnps package but modified to my needs.
   split_to_df <- function(x, sep, fixed=FALSE, perl=TRUE, useBytes=FALSE, names=NULL) {
     
     x <- as.character(x)
@@ -38,7 +40,8 @@ getSNPs <- function(queryTerm) {
     if( !is.null(names) ) {
       names(tmp) <- names
     } else {
-      names(tmp) <- paste( "V", 1:ncol(tmp), sep="" )
+      names(tmp) <- tmp[1,]
+      tmp <- tmp[-1,]
     }
     
     return(tmp)
