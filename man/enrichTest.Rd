@@ -11,7 +11,7 @@ enrichTest(matchedSNPfile, proxiesFile, featureObj)
 
 \item{proxiesFile}{File containing proxies}
 
-\item{featureObj}{Feature object for which encirhment has to be calculated}
+\item{featureObj}{Feature object for which enrichment has to be calculated}
 }
 \value{
 Returns p.value

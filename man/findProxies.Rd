@@ -5,8 +5,7 @@
 \title{Submit list of SNPs to SNPsnap server}
 \usage{
 findProxies(path2RefDir, path2leadSNPList, proxyWindow = 1000,
-  proxyCorr = 0.8, path2Proxies, useMaf = TRUE, maf = 0.01,
-  useHWE = TRUE, hwe = 1e-05, useGENO = TRUE, geno = 0.1)
+  proxyCorr = 0.8, path2Proxies)
 }
 \arguments{
 \item{path2RefDir}{Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam}
@@ -18,18 +17,6 @@ findProxies(path2RefDir, path2leadSNPList, proxyWindow = 1000,
 \item{proxyCorr}{plink parameter --ld-window-r2 ; default is 0.8}
 
 \item{path2Proxies}{patht to directory where the SNPs are}
-
-\item{useMaf, }{a logical value to decide whether maf pameter is used;  default is TRUE}
-
-\item{maf}{plink parameter maf;  default is 0.01}
-
-\item{useHWE, }{a logical value to decide whether HWE pameter is used;  default is TRUE}
-
-\item{hwe}{plink parameter hwe;  default is 10e-6}
-
-\item{useGENO, }{a logical value to decide whether geno pameter is used;  default is TRUE}
-
-\item{geno}{plink parameter 0.1; default is  0.1}
 }
 \description{
 Submit list of SNPs to SNPsnap server
