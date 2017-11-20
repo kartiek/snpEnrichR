@@ -31,7 +31,8 @@ clumpSNPs <- function(plinkPathPrefix,snplist,outputPath,corrCoeff,distance) {
     colnames(res)<-res[1,]
     res <- res[-1,]
     nonclumpedSNPs <- res$SNP
-
+    write.table(nonclumpedSNPs,file=outputPath,quote = F,row.names=F,col.names = F)
+    return(nonclumpedSNPs)
     
 }
   

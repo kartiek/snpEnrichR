@@ -4,18 +4,21 @@
 \alias{clumpSNPs}
 \title{Title}
 \usage{
-clumpSNPs(plinkPathPrefix, SNPsPath, outputPath, corrCoeff, distance)
+clumpSNPs(plinkPathPrefix, snplist, outputPath, corrCoeff, distance)
 }
 \arguments{
 \item{plinkPathPrefix}{}
 
-\item{SNPsPath}{}
+\item{snplist}{}
 
 \item{outputPath}{}
 
 \item{corrCoeff}{}
 
 \item{distance}{}
+}
+\value{
+Returns SNP list with clumped SNP buddies
 }
 \description{
 Title

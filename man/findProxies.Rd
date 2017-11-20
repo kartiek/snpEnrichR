@@ -4,19 +4,19 @@
 \alias{findProxies}
 \title{Submit list of SNPs to SNPsnap server}
 \usage{
-findProxies(path2RefDir, path2leadSNPList, proxyWindow = 1000,
-  proxyCorr = 0.8, path2Proxies)
+findProxies(path2PlinkPrefix, snplist, proxyWindow = 1000, proxyCorr = 0.8,
+  path2Proxies)
 }
 \arguments{
-\item{path2RefDir}{Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam}
-
-\item{path2leadSNPList}{Full path to the list of lead snps}
+\item{path2PlinkPrefix}{Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam}
 
 \item{proxyWindow}{--ld-window-kb;  default is 1000}
 
 \item{proxyCorr}{plink parameter --ld-window-r2 ; default is 0.8}
 
 \item{path2Proxies}{patht to directory where the SNPs are}
+
+\item{path2leadSNPList}{Full path to the list of lead snps}
 }
 \description{
 Submit list of SNPs to SNPsnap server

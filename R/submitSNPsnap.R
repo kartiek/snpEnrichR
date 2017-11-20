@@ -148,7 +148,9 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
   remDr$findElement(using = 'name', value = "email_address")$sendKeysToElement(list(email_address))
   remDr$findElement(using = 'class', value = 'btn-success')$clickElement()
   webElem <- remDr$findElement(using = 'class', value = 'btn-success')
+  urlOut<-webElem$getElementAttribute('href')[[1]]
   message('Results can be downloaded from ',webElem$getElementAttribute('href')[[1]])
   remDr$close()
   rD$server$stop()
+  return(urlOut)
 }
