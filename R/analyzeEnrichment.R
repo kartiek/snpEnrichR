@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @examples
-analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPsnapPath,numberOfRandomSNPsets,proxyPathPrefix,traitShort,genomicRegionsName,cores,resDir,traitsLong=NULL)
+analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPsnapPath,numberOfRandomSNPsets,LSProxyPathPrefix,BGProxyPathPrefix,traitShort,genomicRegionsName,cores,resDir,traitsLong=NULL)
 {
   library(GenomicFeatures)
   library(tidyverse)
@@ -36,8 +36,8 @@ analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPs
   return(snpDat)}
 
   # Read SNP proxies
-  readProx <- function(x){
-    return(read.table(paste0(proxyPathPrefix,x,'.ld'),sep = '',header = T))
+  readProx <- function(x,proxyPathPrefix){
+    return(read.table(file.path(proxyPathPrefix,paste0(x,'.ld')),sep = '',header = T,stringsAsFactors=F))
     }
 
 # Get proxies for each set and their respective overlaps
@@ -52,11 +52,14 @@ analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPs
   analyzeOVs <- function(x){
     snpSets <- getSNPDat(x)
     print("SNPs fetched")
-    allProx <- readProx(x)
+    LeadSNPProx <- readProx(x,LSProxyPathPrefix)
+    BGPSNPProx <- readProx(x,BGProxyPathPrefix)
     print("Proxies fetched")
-    ovList <- apply(snpSets,2,getOl,w=allProx,z=f2)
+    ovList1 <- apply(snpSets[,1,drop=F],2,getOl,w=LeadSNPProx,z=f2)
+    ovList2 <- apply(snpSets[,2:(numberOfRandomSNPsets+1),drop=F],2,getOl,w=BGPSNPProx,z=f2)
+    ovList=data.frame(ovList=c(ovList1,ovList2))
     print("Overlaps fetched")
-    write_tsv(as.data.frame(ovList),file.path(resDir,paste0('Overlaps_',x,'.txt')))}
+    write_tsv(as.data.frame(ovList),file.path(resDir,paste0('Overlaps__',x,'.txt')))}
 
 
   disRes <-  mclapply(traitShort,analyzeOVs,mc.cores = cores)
