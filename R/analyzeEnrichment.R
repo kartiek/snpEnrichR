@@ -51,15 +51,12 @@ analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPs
 # Analyse the data and write results
   analyzeOVs <- function(x){
     snpSets <- getSNPDat(x)
-    print("SNPs fetched")
     LeadSNPProx <- readProx(x,LSProxyPathPrefix)
     BGPSNPProx <- readProx(x,BGProxyPathPrefix)
-    print("Proxies fetched")
     ovList1 <- apply(snpSets[,1,drop=F],2,getOl,w=LeadSNPProx,z=f2)
     ovList2 <- apply(snpSets[,2:(numberOfRandomSNPsets+1),drop=F],2,getOl,w=BGPSNPProx,z=f2)
     ovList=data.frame(ovList=c(ovList1,ovList2))
-    print("Overlaps fetched")
-    write_tsv(as.data.frame(ovList),file.path(resDir,paste0('Overlaps__',x,'.txt')))}
+    write_tsv(as.data.frame(ovList),file.path(resDir,paste0('Overlaps_',x,'.txt')))}
 
 
   disRes <-  mclapply(traitShort,analyzeOVs,mc.cores = cores)
