@@ -25,8 +25,8 @@ clumpSNPs <- function(plinkPathPrefix,snplist,outputPath,corrCoeff,distance) {
                       distance,
                       tmpfilename)
     print(cmdstr)
-    system(cmdstr)
-    
+    dd=system(cmdstr)
+
     res <- read.table(paste(tmpfilename,'clumped',sep="."),stringsAsFactors = F)
     colnames(res)<-res[1,]
     res <- res[-1,]
