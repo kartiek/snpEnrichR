@@ -18,7 +18,7 @@ findProxies <- function(path2PlinkPrefix,snplist,proxyWindow=1000,proxyCorr=0.8,
   }
   if (! is.vector(snplist))  {stop("Parameter path2RefDir should be a vector.", call. = FALSE)}
   if (! is.character(path2Proxies))  {stop("Parameter path2Proxies should be a string.", call. = FALSE)}
-  if (! dir.exists(dirname(path2Proxies))) { dir.create(path2Proxies, recursive = T)}
+  if (! dir.exists(dirname(path2Proxies))) { dir.create(dirname(path2Proxies), recursive = T)}
   if (proxyWindow%%1!=0 || proxyWindow < 1) {stop("Parameter proxyWindow should be positive integer,", call. = FALSE)}
   if (proxyCorr < -1.0 || proxyCorr > 1) {stop("Invalid correlation.", call. = FALSE)}
   
