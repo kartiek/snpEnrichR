@@ -133,6 +133,7 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
     if(remDr$findElement(using = 'id', value = 'clump')$isElementSelected() == FALSE){
       remDr$findElement(using = 'id', value = 'clump')$clickElement()
       remDr$findElement(using = 'name', value = "clump_r2")$sendKeysToElement(list(as.character(clump_r2)))
+      remDr$findElement(using = 'name', value = "clump_kb")$clearElement()
       remDr$findElement(using = 'name', value = "clump_kb")$sendKeysToElement(list(as.character(clump_kb)))
     }}
   if(exclude_input_SNPs == TRUE){
