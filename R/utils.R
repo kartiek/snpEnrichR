@@ -1,5 +1,8 @@
 
-## This following split_to_df function is originally from rsnps package but modified to my needs.
+# EBI GWAS URL
+gwasURL <- 'https://www.ebi.ac.uk/gwas/api/search/downloads?q=&pvalfilter=&orfilter=&betafilter=&datefilter=&genomicfilter=&traitfilter%5B%5D=&dateaddedfilter=&facet=association'
+
+# This following split_to_df function is originally from rsnps package but modified to my needs.
 split_to_df <- function(x, sep, fixed=FALSE, perl=TRUE, useBytes=FALSE, names=NULL) {
   
   x <- as.character(x)

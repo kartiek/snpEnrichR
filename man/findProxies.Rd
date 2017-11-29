@@ -2,7 +2,7 @@
 % Please edit documentation in R/findProxies.R
 \name{findProxies}
 \alias{findProxies}
-\title{Submit list of SNPs to SNPsnap server}
+\title{Find proxies to SNPs using plink}
 \usage{
 findProxies(path2PlinkPrefix, snplist, proxyWindow = 1000, proxyCorr = 0.8,
   path2Proxies)
@@ -14,12 +14,12 @@ findProxies(path2PlinkPrefix, snplist, proxyWindow = 1000, proxyCorr = 0.8,
 
 \item{proxyCorr}{plink parameter --ld-window-r2 ; default is 0.8}
 
-\item{path2Proxies}{patht to directory where the SNPs are}
+\item{path2Proxies}{path to directory where the SNPs are}
 
 \item{path2leadSNPList}{Full path to the list of lead snps}
 }
 \description{
-Submit list of SNPs to SNPsnap server
+Find proxies to SNPs using plink
 }
 \examples{
 findProxies()

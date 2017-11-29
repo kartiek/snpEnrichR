@@ -23,6 +23,7 @@
 #' @return Returns a URL from which results can be downloaded
 #' @export
 #' @import RSelenium
+#' @importFrom readr write_tsv
 #' @examples
 #' submitSNPsnap(snplist=snps,email_address='kartiek.kanduri@aalto.fi)
 
@@ -36,7 +37,6 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
                           email_address, job_name){
   library(RSelenium)
   tFile <- tempfile(fileext = '.txt')
-  # is.vector(UC.table[,1])
   readr::write_tsv(as.data.frame(snplist),tFile)
   if(missing(super_population)){super_population <- 'EUR'}
   else{ super_population <- match.arg(super_population) }
@@ -96,7 +96,7 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
   if(missing(email_address)){
     stop("Please provide an email address", call. = FALSE) }
   else if(! is.character(email_address))  {stop("Parameter email_address should be a string.", call. = FALSE)}
-  rD <- rsDriver(verbose = FALSE)
+  rD <- rsDriver(verbose = FALSE, browser = 'phantomjs')
   remDr <- rD$client
   remDr$navigate("https://data.broadinstitute.org/mpg/snpsnap/match_snps.html")
   remDr$findElement(using = 'name', value = "snplist_fileupload")$sendKeysToElement(list(tFile))
@@ -149,7 +149,7 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
   remDr$findElement(using = 'name', value = "email_address")$sendKeysToElement(list(email_address))
   remDr$findElement(using = 'class', value = 'btn-success')$clickElement()
   webElem <- remDr$findElement(using = 'class', value = 'btn-success')
-  urlOut<-webElem$getElementAttribute('href')[[1]]
+  urlOut <- webElem$getElementAttribute('href')[[1]]
   message('Results can be downloaded from ',webElem$getElementAttribute('href')[[1]])
   remDr$close()
   rD$server$stop()
