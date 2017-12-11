@@ -10,6 +10,7 @@
 #' @export
 #'
 #' @examples
+
 clumpSNPs <- function(plinkPathPrefix,snplist,outputPath,corrCoeff,distance) {
     P=rep(0,length=length(snplist))
     snps <- cbind(SNP=snplist,P)

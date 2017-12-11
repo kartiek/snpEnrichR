@@ -1,10 +1,10 @@
-#' Submit list of SNPs to SNPsnap server
+#' Find proxies to SNPs using plink
 #'
 #' @param path2PlinkPrefix Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam
 #' @param path2leadSNPList Full path to the list of lead snps
 #' @param proxyWindow --ld-window-kb;  default is 1000
 #' @param proxyCorr plink parameter --ld-window-r2 ; default is 0.8
-#' @param path2Proxies patht to directory where the SNPs are
+#' @param path2Proxies path to directory where the SNPs are
 #' @return
 #' @export
 #' @examples

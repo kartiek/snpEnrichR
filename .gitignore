@@ -8,4 +8,8 @@ SNPSnap_dl
 SNPsnap_AS
 AS_Proxies.ld
 AS_Proxies.log
+<<<<<<< HEAD
 my.AS.txt
+=======
+inst/doc
+>>>>>>> 8149f8d73334b65f19e52f59f9968a801100a534

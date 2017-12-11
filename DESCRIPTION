@@ -8,5 +8,10 @@ Description: This packages contains methods for automating and testing enrichmen
 License: GPL
 LazyData: TRUE
 RoxygenNote: 6.0.1
-Depends: RSelenium, httr
-Imports: 
+Depends: RSelenium
+Imports: httr, readr
+Suggests: covr,
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
