@@ -29,6 +29,7 @@ findProxies <- function(path2PlinkPrefix,snplist,proxyWindow=1000,proxyCorr=0.8,
                               '--ld-snp-list', tempfilename,
                               '--ld-window-kb', as.character(proxyWindow),
                               '--ld-window-r2',as.character(proxyCorr),
+                              '--ld-window 99999',
                               '--r2',
                               '--out',as.character(path2Proxies))
   
