@@ -69,8 +69,12 @@ analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPs
     return(disP/1000)}
 
   disPval <- data_frame(disease=traitShort,pval=p.adjust(sapply(traitShort,getPVal),method = 'BH'))
-  write_tsv(disPval,file.path(resDir,'disease_enrichment.txt'))
-
+  ef <- 'disease_enrichment.txt'
+  if(!file.exists(file.path(resDir,ef))) {
+    write_tsv(disPval,file.path(resDir,ef))
+  } else {
+    write_tsv(disPval,file.path(resDir,ef),append=T,col_names=F)
+  }
   # Plot the background dists
   allBkg <- bind_cols(lapply(file.path(resDir,paste0('Overlaps_',traitShort,'.txt')),read_tsv))
   colnames(allBkg) <- traitShort
@@ -79,9 +83,14 @@ analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPs
   allBkg <- allBkg[-1,]
   bkg <- gather(allBkg,dis,val)
 
-  pvb <- read_tsv(file.path(resDir,'disease_enrichment.txt'))
+  pvb <- read_tsv(file.path(resDir,ef))
   colnames(pvb) <- c('dis','pval')
-  png(file.path(resDir,'background_distributions.png'),width = 16,height = 9,units = 'in',res = 300)
+  if (nrow(pvb)>1) {
+    png(file.path(resDir,'background_distributions.png'),width = 16,height = 9,units = 'in',res = 300)
+  } else {
+    png(file.path(resDir,paste0(traitShort,'_','background_distributions.png')),width = 16,height = 9,units = 'in',res = 300)
+  } 
+  
   print(ggplot(bkg,aes(val)) + geom_histogram(binwidth=1) +
           facet_wrap(~dis,ncol = 4,scales = 'free') + theme_bw(base_size = 16) +
           geom_vline(data=disVal,aes(xintercept = val),linetype='dotted') +
