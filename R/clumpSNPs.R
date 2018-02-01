@@ -1,17 +1,17 @@
-#' Title
+#' Decipher a set of non-clumped SNPs from a list of SNPs
 #'
-#' @param plinkPathPrefix 
-#' @param snplist 
-#' @param outputPath 
-#' @param corrCoeff 
-#' @param distance 
+#' @param plinkPathPrefix Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam.
+#' @param snplist Character vector of snps.
+#' @param outputPath Path to output file. 
+#' @param clump_r2 R2 cutoff for clumping. 
+#' @param clump_kb Distance cutoff for clumping.
 #'
 #' @return Returns SNP list with clumped SNP buddies
-#' @export
+#' @export 
 #'
 #' @examples
 
-clumpSNPs <- function(plinkPathPrefix,snplist,outputPath,corrCoeff,distance) {
+clumpSNPs <- function(plinkPathPrefix,snplist,outputPath,clump_r2,clump_kb) {
     P=rep(0,length=length(snplist))
     snps <- cbind(SNP=snplist,P)
     
@@ -22,8 +22,8 @@ clumpSNPs <- function(plinkPathPrefix,snplist,outputPath,corrCoeff,distance) {
     print('TMP file  created')
     cmdstr <- sprintf('plink --bfile %s --clump %s --clump-r2 %f --clump-kb %i --out %s',plinkPathPrefix,
                       tmpfilename,
-                      corrCoeff,
-                      distance,
+                      clump_r2,
+                      clump_kb,
                       tmpfilename)
     print(cmdstr)
     dd=system(cmdstr)
