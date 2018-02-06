@@ -1,13 +1,10 @@
-## ----setup, include = FALSE----------------------------------------------
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+## ----style, echo = FALSE, results = 'asis'---------------------------------
+BiocStyle::markdown()
 
-## ---- fig.show='hold'----------------------------------------------------
+## ---- fig.show='hold'------------------------------------------------------
 plot(1:10)
 plot(10:1)
 
-## ---- echo=FALSE, results='asis'-----------------------------------------
+## ---- echo=FALSE, results='asis'-------------------------------------------
 knitr::kable(head(mtcars, 10))
 
