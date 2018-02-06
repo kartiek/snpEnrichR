@@ -1,4 +1,6 @@
 #' Decipher a set of non-clumped SNPs from a list of SNPs
+#' 
+#' Creates a list of non-clumped snps with one representative of each clump in the input snp list and writes it to a file.
 #'
 #' @param plinkPathPrefix Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam.
 #' @param snplist Character vector of snps.
@@ -10,6 +12,7 @@
 #' @export 
 #'
 #' @examples
+#' snpList <- clumpSNPs(plinkPathPrefix,snplist,outputPath,clump_r2,clump_kb)
 
 clumpSNPs <- function(plinkPathPrefix,snplist,outputPath,clump_r2,clump_kb) {
     P=rep(0,length=length(snplist))

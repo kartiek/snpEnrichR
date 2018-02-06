@@ -2,24 +2,27 @@
 % Please edit documentation in R/clumpSNPs.R
 \name{clumpSNPs}
 \alias{clumpSNPs}
-\title{Title}
+\title{Decipher a set of non-clumped SNPs from a list of SNPs}
 \usage{
-clumpSNPs(plinkPathPrefix, snplist, outputPath, corrCoeff, distance)
+clumpSNPs(plinkPathPrefix, snplist, outputPath, clump_r2, clump_kb)
 }
 \arguments{
-\item{plinkPathPrefix}{}
+\item{plinkPathPrefix}{Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam.}
 
-\item{snplist}{}
+\item{snplist}{Character vector of snps.}
 
-\item{outputPath}{}
+\item{outputPath}{Path to output file.}
 
-\item{corrCoeff}{}
+\item{clump_r2}{R2 cutoff for clumping.}
 
-\item{distance}{}
+\item{clump_kb}{Distance cutoff for clumping.}
 }
 \value{
 Returns SNP list with clumped SNP buddies
 }
 \description{
-Title
+Creates a list of non-clumped snps with one representative of each clump in the input snp list and writes it to a file.
+}
+\examples{
+snpList <- clumpSNPs(plinkPathPrefix,snplist,outputPath,clump_r2,clump_kb)
 }

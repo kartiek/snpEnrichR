@@ -21,11 +21,12 @@
 #' @param job_name Job name
 #'
 #' @return Returns a URL from which results can be downloaded
+#' @author Kartiek Kanduri, Kari Nousiainen
 #' @export
 #' @import RSelenium
 #' @importFrom readr write_tsv
 #' @examples
-#' submitSNPsnap(snplist=snps,email_address='kartiek.kanduri@aalto.fi)
+#' submitSNPsnap(snplist=snps,email_address='kartiek.kanduri@aalto.fi')
 
 submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
                           distance_type = c('ld','kb'), distance, max_freq_deviation = seq(1,50,1),

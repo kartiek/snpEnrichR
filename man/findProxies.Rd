@@ -19,8 +19,11 @@ findProxies(path2PlinkPrefix, snplist, proxyWindow = 1000, proxyCorr = 0.8,
 \item{path2leadSNPList}{Full path to the list of lead snps}
 }
 \description{
-Find proxies to SNPs using plink
+Computes proxies for given SNPs using plink
 }
 \examples{
-findProxies()
+findProxies(path2PlinkPrefix, snplist, path2Proxies)
+}
+\author{
+Kari Nousiainen
 }

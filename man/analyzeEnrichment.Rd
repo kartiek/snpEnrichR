@@ -2,31 +2,45 @@
 % Please edit documentation in R/analyzeEnrichment.R
 \name{analyzeEnrichment}
 \alias{analyzeEnrichment}
-\title{Title}
+\title{analyzeEnrichment}
 \usage{
 analyzeEnrichment(regionPath, regionHeader = c("chr", "start", "end"),
   SNPsnapPath, numberOfRandomSNPsets, LSProxyPathPrefix, BGProxyPathPrefix,
   traitShort, genomicRegionsName, cores, resDir, traitsLong = NULL)
 }
 \arguments{
-\item{regionPath}{}
+\item{regionPath}{Path to file that contains the genomic regions}
 
-\item{regionHeader}{}
+\item{regionHeader}{Header of the genomics regions file}
 
-\item{SNPsnapPath}{}
+\item{SNPsnapPath}{Path to SNPsnap results}
 
-\item{numberOfRandomSNPsets}{}
+\item{numberOfRandomSNPsets}{The number of SNPs in a random SNP sets.}
 
-\item{traitShort}{}
+\item{traitShort}{Vector of abbreviated trait name.}
 
-\item{genomicRegionsName}{}
+\item{genomicRegionsName}{The name describing the genomic regions}
 
-\item{resDir}{}
+\item{cores}{The number of cores use in parallel computation}
 
-\item{traitsLong}{}
+\item{resDir}{Path to directory where the results are stored}
 
-\item{proxyPathPrefix}{}
+\item{traitsLong}{Vector of official name for traits.}
+
+\item{proxyPathPrefix}{Path containing the prefix for the directoty of proxy SNPs.}
+}
+\value{
+None
 }
 \description{
-Title
+Main function computes the overlaps between snps and genomic regions,
+computes empirical p-values, performs Benjamini-Hochberg mutilple hypothesis
+correction if needed, saves the results in a file. In addition, the function draws descriptive 
+figures of the process.
+}
+\examples{
+function(regionPath,SNPsnapPath,numberOfRandomSNPsets,LSProxyPathPrefix,BGProxyPathPrefix,traitShort,genomicRegionsName,cores,resDir)
+}
+\author{
+Kari Nousiainen, Kartiek Kanduri
 }

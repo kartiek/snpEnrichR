@@ -5,7 +5,6 @@
 #' @param featureObj Feature object for which enrichment has to be calculated
 #'
 #' @return Returns p.value
-#' @export
 #'
 #' @examples
 #' enrichTest()

@@ -1,14 +1,18 @@
 #' Find proxies to SNPs using plink
-#'
+#' 
+#' Computes proxies for given SNPs using plink
+#' 
 #' @param path2PlinkPrefix Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam
 #' @param path2leadSNPList Full path to the list of lead snps
 #' @param proxyWindow --ld-window-kb;  default is 1000
 #' @param proxyCorr plink parameter --ld-window-r2 ; default is 0.8
 #' @param path2Proxies path to directory where the SNPs are
-#' @return
+#'  
+#' @author Kari Nousiainen 
 #' @export
+#' 
 #' @examples
-#' findProxies()
+#' findProxies(path2PlinkPrefix, snplist, path2Proxies)
 
 findProxies <- function(path2PlinkPrefix,snplist,proxyWindow=1000,proxyCorr=0.8,path2Proxies)
   {
