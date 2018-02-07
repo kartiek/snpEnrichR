@@ -21,7 +21,8 @@
 #' @export
 #' 
 #' @import GenomicFeatures 
-#' @import tidyverse 
+#' @import dplyr
+#' @import readr
 #' @import parallel
 #' 
 #' @author Kari Nousiainen, Kartiek Kanduri
@@ -32,7 +33,8 @@
 analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPsnapPath,numberOfRandomSNPsets,LSProxyPathPrefix,BGProxyPathPrefix,traitShort,genomicRegionsName,cores,resDir,traitsLong=NULL)
 {
   library(GenomicFeatures)
-  library(tidyverse)
+  library(dplyr)
+  library(dplyr)
   library(parallel)
 
   
