@@ -39,6 +39,36 @@ snpEnrichR implements methods to analyze enrichment of SNPs in genomic regions.
 - Find SNPs correlated to input SNPs within a given distance
 - Perform enrichment analysis, including overlap computation, empirical statistical hypothesis testing with Benjamini-Hochberg multiple hypothesis correction 
 
+# Citation 
+
+The citation instructions come here when published.
+
+# Introduction
+
+Associations between SNPs and genomic regions can provide understanding about the  molecular mechanics underlying any given phenotype. snpEnrichR is a tool for estimating Enrichment of such association. In order to estimate a null distribution for empirical  statistical hypothesis test the set of genomic regions is considered as the reference set, and the set of trait specific SNPs is then randomized multiple times. 
+
+
+
+
+Genome-wide  association  studies  have  successfully  linked  SNPs  to
+various traits. 
+
+Resolution of such studies    
+
+imited resolution of genotyping methods
+used in GWAS studies and because SNPs occur in linkage disequilibrium
+(LD), it is possible that the link between the phenotype and the detect
+
+
+However, due to a limited resolution of genotyping methods
+used in GWAS studies and because SNPs occur in linkage disequilibrium
+(LD), it is possible that the link between the phenotype and the detecte
+
+lead SNP is indirect through another SNP, which is in LD with the lead
+SNP. In these cases,  taking proxy SNPs into account may enhance the
+sensitivity of the enrichment analysi
+
+
 Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
 
 - Never uses retina figures
