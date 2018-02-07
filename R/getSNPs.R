@@ -1,6 +1,6 @@
 #' Get list of SNPs from EBI's GWAS server
 #'
-#' @param queryTerm Query term 
+#' @param queryTerm Query term for EBI GWAS. See https://www.ebi.ac.uk/gwas/ for details.
 #'
 #' @return Returns a data fram of SNPs from EBI's server
 #' @export

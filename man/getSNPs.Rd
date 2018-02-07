@@ -7,7 +7,7 @@
 getSNPs(queryTerm)
 }
 \arguments{
-\item{queryTerm}{Query term}
+\item{queryTerm}{Query term for EBI GWAS. See https://www.ebi.ac.uk/gwas/ for details.}
 }
 \value{
 Returns a data fram of SNPs from EBI's server
