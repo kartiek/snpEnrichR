@@ -93,17 +93,58 @@ str(GWAS_SNPS,vec.len=1,nchar.max=134)
  $ PLATFORM [SNPS PASSING QC]: chr  "Illumina [11532644] (imputed)" ...
  $ CNV                       : chr  "N" ...
 ```
-The data frame contains all SNPs avaible. Hence, it should be parsed to match required criteria e.g. population, p-value etc.
+The data frame contains all SNPs available. Hence, it should be parsed to match required criteria e.g. disease/trait, population, p-value etc. For example, considering all SNPs where Disease/treat is "Psoriasis" related to studies where cases and control are from European populations and keeping duplicate SNPs in the list would produce the following table.
+
+```R
+'data.frame':	46 obs. of  7 variables:
+ $ chr          : chr  "13" "20" "6" "6" ...
+ $ start        : chr  "39776775" "49905793" "31306778" "31464003" ...
+ $ end          : chr  "39776775" "49905793" "31306778" "31464003" ...
+ $ strand       : chr  "*" "*" "*" "*" ...
+ $ DISEASE/TRAIT: chr  "Psoriasis" "Psoriasis" "Psoriasis" "Psoriasis" ...
+ $ P-VALUE      : chr  "2E-6" "1E-8" "2E-39" "2E-26" ...
+ $ SNPS         : chr  "rs7993214" "rs495337" "rs10484554" "rs2395029" 
+```
+
+The downloaded data is mapped to genome assembly GRCh38 whereas the following steps require mapping to hg19. Hence, liftover is needed. We use a reference SNP database that consists of 1000G SNPs which are tranformed to plink format using chromosomal positions as identifiers.  
 
 ```R
 require(rtracklayer)
 ch = import.chain('data/hg38ToHg19.over.chain')
-GWAS_SNPS_parsed_hg10 <- liftOver(GWAS_SNPS_parsed, ch)
+# HLA regions to be filtered out
+HLA <- GRanges( Rle("6",1),IRanges(25000000,35000000))
+snpObjects <- sort(unique(makeGRangesFromDataFrame(snpTable, 
+seqnames.field="chr",keep.extra.columns=TRUE)))
+seqlevelsStyle(snpObjects) <- "UCSC"
+snpObjectsLiftedOver<-unlist(liftOver(snpObjects, ch))
+if (any(countOverlaps(snpObjectsLiftedOver, HLA)<1L))
+snpObjectsLiftedOver <- snpObjectsLiftedOver[countOverlaps(snpObjectsLiftedOver, HLA)<1L,]
+snpsNewCoords<-data.frame(snpObjectsLiftedOver)
+snpList <- apply(snpsNewCoords[,1:2],1,function(x) gsub("chr","",paste(trimws(x),collapse =":"))) 
 ```
 
 # `clumpSNPs`: Decorrelate  SNP sets 
+SNPs must be decorrelated as correlated SNPs cause biases when drawing random SNP sets.
+```R
+snpList <-clumpSNPs('../Data/ThousandGenomes/1kp3_snpSNAP',
+                    snpList,
+                    '../Data/non_clumped_snp',
+                    0.8,
+                    1000)
+```
 
 # `submitSNPsnap`: Query randomized SNP sets matching the SNP set from snpSNAP
+```R
+snpSNAPUrl = submitSNPsnap(snpList,
+                          distance_type ="kb",
+                          distance=1000,
+                          clump_r2="0.8",
+                          clump_kb="1000",
+                          max_ld_buddy_count_deviation=20,
+                          ld_buddy_cutoff = "0.8",
+                          N_sample_sets=1000,
+                          email_address = "kari.nousiainen@aalto.fi",job_name=trait)
+```
 
 # `findProxies`: Find LD buddies for SNPs
 
