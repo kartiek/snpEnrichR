@@ -118,7 +118,7 @@ seqnames.field="chr",keep.extra.columns=TRUE)))
 seqlevelsStyle(snpObjects) <- "UCSC"
 snpObjectsLiftedOver<-unlist(liftOver(snpObjects, ch))
 if (any(countOverlaps(snpObjectsLiftedOver, HLA)<1L))
-snpObjectsLiftedOver <- snpObjectsLiftedOver[countOverlaps(snpObjectsLiftedOver, HLA)<1L,]
+    snpObjectsLiftedOver <- snpObjectsLiftedOver[countOverlaps(snpObjectsLiftedOver, HLA)<1L,]
 snpsNewCoords<-data.frame(snpObjectsLiftedOver)
 snpList <- apply(snpsNewCoords[,1:2],1,function(x) gsub("chr","",paste(trimws(x),collapse =":"))) 
 ```
@@ -134,6 +134,7 @@ snpList <-clumpSNPs('../Data/ThousandGenomes/1kp3_snpSNAP',
 ```
 
 # `submitSNPsnap`: Query randomized SNP sets matching the SNP set from snpSNAP
+submitSNPsnap queries snpSNAP server to produce random sets of SNPs matching input SNPs with given criteria.  
 ```R
 snpSNAPUrl = submitSNPsnap(snpList,
                           distance_type ="kb",
@@ -143,14 +144,69 @@ snpSNAPUrl = submitSNPsnap(snpList,
                           max_ld_buddy_count_deviation=20,
                           ld_buddy_cutoff = "0.8",
                           N_sample_sets=1000,
-                          email_address = "kari.nousiainen@aalto.fi",job_name=trait)
+                          email_address = "my@address",
+                          job_name="PS")
+```
+When available, the snpSNAP results can be downloaded.
+```R
+  download.file(snpSNAPUrl,
+                "../Data/SNPSnap_Psoriasis_download",
+                method="wget",
+                quiet = FALSE, 
+                mode = "w")
+  unzip(zipfile="../Data/SNPSnap_dl",exdir="../Data/")
 ```
 
-# `findProxies`: Find LD buddies for SNPs
+In addition to randomized SNP sets, SNPsnap output files contain information needed for quality control. It is important to confirm everything is order before continuing.
+```R
+> dir("../Data/SNPsnap_Psoriasis/")
+```
+```
+[1] "input_snps_clumped.txt"              "input_snps_excluded.txt"            
+[3] "input_snps_identifer_mapping.txt"    "input_snps_insufficient_matches.txt"
+[5] "matched_snps.txt"                    "snpsnap_summary.txt"    
+```
+If became confident, the matched SNPs can be downloaded 
 
+<!--
+%```R
+%matchedSnps <- read.table(file.path("../Data/SNPsnap_Psoriasis/",
+%                                    "matched_snps.txt"),
+%                           stringsAsFactors = F,
+%                           header=T)
+%```
+-->
+
+# `findProxies`: Find LD buddies for SNPs
+ `findProxies` computes proxy SNPs for given SNP list
+
+```R
+findProxies(path2PlinkPrefix="../Data/ThousandGenomes/1kp3_snpSNAP",
+            snplist=matchedSnps[,1],
+            path2Proxies="../Data/Psoriasis/input_Proxies/PS")
+            
+findProxies("/l/snp/new/Data/ThousandGenomes/1kp3_snpSNAP",
+            unique(unlist(matchedSnps[,-1])),
+            path2Proxies = "../Data/Psoriasis/snpsnap_Proxies/PS")
+            
+```
 # `analyzeEnrichment`: Perform the actual analysis
 
+```
+analyzeEnrichment(regionPath="../Data/myTFBSites.tsv",
+                  regionHeader=c('chr','start','end'),
+                  SNPsnapPath="../Data/SNPsnap_",
+                  numberOfRandomSNPsets=1000,
+                  LSProxyPathPrefix="../Data/Psoriasis/input_Proxies",
+                  BGProxyPathPrefix="../Data/Psoriasis/snpsnap_Proxies",
+                  traitShort="PS",
+                  genomicRegionsName="TF Binding sites",
+                  cores=4,
+                  resDir="../Data/snpEnrichROutput",
+                  traitsLong="Psoriasis")
 
+```
+<!--
 Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
 
 - Never uses retina figures
@@ -198,3 +254,5 @@ Also a quote using `>`:
 
 > "He who gives up [code] safety for [code] speed deserves neither."
 ([via](https://twitter.com/hadleywickham/status/504368538874703872))
+
+-->

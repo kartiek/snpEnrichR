@@ -4,19 +4,19 @@
 \alias{findProxies}
 \title{Find proxies to SNPs using plink}
 \usage{
-findProxies(path2PlinkPrefix, snplist, proxyWindow = 1000, proxyCorr = 0.8,
-  path2Proxies)
+findProxies(path2PlinkPrefix, snplist, ld_window_kb = 1000,
+  ld_window_r2 = 0.8, path2Proxies)
 }
 \arguments{
 \item{path2PlinkPrefix}{Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam}
 
-\item{proxyWindow}{--ld-window-kb;  default is 1000}
-
-\item{proxyCorr}{plink parameter --ld-window-r2 ; default is 0.8}
-
 \item{path2Proxies}{path to directory where the SNPs are}
 
 \item{path2leadSNPList}{Full path to the list of lead snps}
+
+\item{ld-window-kb}{--ld-window-kb;  default is 1000}
+
+\item{ld-window-r2}{plink parameter --ld-window-r2 ; default is 0.8}
 }
 \description{
 Computes proxies for given SNPs using plink
