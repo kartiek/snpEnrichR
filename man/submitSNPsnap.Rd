@@ -56,7 +56,8 @@ submitSNPsnap(snplist, super_population = c("EUR", "EAS", "WAFR"),
 Returns a URL from which results can be downloaded
 }
 \description{
-Submit list of SNPs to SNPsnap server
+SubmitSNPsnap submits a query to SNPsnap server for creating random sets of SNPs matching input SNPs and 
+the criteria given by the user.
 }
 \examples{
 submitSNPsnap(snplist=snps,email_address='kartiek.kanduri@aalto.fi')

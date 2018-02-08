@@ -1,4 +1,7 @@
 #' Submit list of SNPs to SNPsnap server
+#' 
+#' SubmitSNPsnap submits a query to SNPsnap server for creating random sets of SNPs matching input SNPs and 
+#' the criteria given by the user.
 #'
 #' @param snplist List of SNPs
 #' @param super_population Super population to use; defaults to 'EUR'
@@ -97,7 +100,7 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
   if(missing(email_address)){
     stop("Please provide an email address", call. = FALSE) }
   else if(! is.character(email_address))  {stop("Parameter email_address should be a string.", call. = FALSE)}
-  rD <- rsDriver(verbose = FALSE, browser = 'phantomjs')
+  rD <- rsDriver(verbose = FALSE)#, browser = 'phantomjs')
   remDr <- rD$client
   remDr$navigate("https://data.broadinstitute.org/mpg/snpsnap/match_snps.html")
   remDr$findElement(using = 'name', value = "snplist_fileupload")$sendKeysToElement(list(tFile))

@@ -8,18 +8,19 @@ findProxies(path2PlinkPrefix, snplist, ld_window_kb = 1000,
   ld_window_r2 = 0.8, path2Proxies)
 }
 \arguments{
-\item{path2PlinkPrefix}{Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam}
+\item{path2PlinkPrefix}{Plink bfile parameter. It is the path to reference directory including prefix of the plink reference files bed, bim and fam}
 
-\item{path2Proxies}{path to directory where the SNPs are}
+\item{ld_window_kb}{Plink parameter ld-window-kb denotes the maximum distance between LD buddies (default is 1000).}
 
-\item{path2leadSNPList}{Full path to the list of lead snps}
+\item{ld_window_r2}{Plink parameter ld-window-r2 denoted the minimum correlation  between LD buddies (default is 0.8).}
 
-\item{ld-window-kb}{--ld-window-kb;  default is 1000}
+\item{path2Proxies}{Path to directory where the result will be written.}
 
-\item{ld-window-r2}{plink parameter --ld-window-r2 ; default is 0.8}
+\item{path2leadSNPList}{Full path to the SNP list}
 }
 \description{
-Computes proxies for given SNPs using plink
+ClumpSNPs is a wrapper to plink 1.9. The function computes proxy SNPs for the input snps 
+and writes them to a file.
 }
 \examples{
 findProxies(path2PlinkPrefix, snplist, path2Proxies)

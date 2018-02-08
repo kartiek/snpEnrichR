@@ -11,17 +11,19 @@ clumpSNPs(plinkPathPrefix, snplist, outputPath, clump_r2, clump_kb)
 
 \item{snplist}{Character vector of snps.}
 
-\item{outputPath}{Path to output file.}
+\item{outputPath}{A character string is the Path to output file.}
 
 \item{clump_r2}{R2 cutoff for clumping.}
 
 \item{clump_kb}{Distance cutoff for clumping.}
 }
 \value{
-Returns SNP list with clumped SNP buddies
+Returns a character vector of decorrelated SNPs.
 }
 \description{
-Creates a list of non-clumped snps with one representative of each clump in the input snp list and writes it to a file.
+ClumpSNPs is a wrapper to plink 1.9. The function takes a character vector of SNPs and 
+computes the clumped SNP in the vector. The output contains all SNPs without clumping and one 
+representative for every clump.
 }
 \examples{
 snpList <- clumpSNPs(plinkPathPrefix,snplist,outputPath,clump_r2,clump_kb)

@@ -1,14 +1,16 @@
 #' Decipher a set of non-clumped SNPs from a list of SNPs
 #' 
-#' Creates a list of non-clumped snps with one representative of each clump in the input snp list and writes it to a file.
-#'
+#' ClumpSNPs is a wrapper to plink 1.9. The function takes a character vector of SNPs and 
+#' computes the clumped SNP in the vector. The output contains all SNPs without clumping and one 
+#' representative for every clump. 
+#'    
 #' @param plinkPathPrefix Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam.
 #' @param snplist Character vector of snps.
-#' @param outputPath Path to output file. 
+#' @param outputPath A character string is the Path to output file. 
 #' @param clump_r2 R2 cutoff for clumping. 
 #' @param clump_kb Distance cutoff for clumping.
 #'
-#' @return Returns SNP list with clumped SNP buddies
+#' @return Returns a character vector of decorrelated SNPs.
 #' @export 
 #'
 #' @examples

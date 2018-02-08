@@ -1,8 +1,11 @@
 #' Get list of SNPs from EBI's GWAS server
 #'
-#' @param queryTerm Query term for EBI GWAS. See https://www.ebi.ac.uk/gwas/ for details.
+#' GetSNPs takes a character string and sends it to NHGRI-EBI GWAS Catalog as the query term 
+#' and returns a data table containing all data matching to the query term.
 #'
-#' @return Returns a data fram of SNPs from EBI's server
+#' @param queryTerm The query term for EBI GWAS. See https://www.ebi.ac.uk/gwas/ for details.
+#'
+#' @return Returns a data frame of SNPs from EBI's server
 #' @export
 #' @importFrom httr parse_url build_url content GET
 #' @importFrom utils URLdecode URLencode
