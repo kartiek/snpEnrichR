@@ -3,8 +3,8 @@
 #' ClumpSNPs is a wrapper to plink 1.9. The function computes proxy SNPs for the input snps 
 #' and writes them to a file.
 #' 
-#' @param path2PlinkPrefix Plink bfile parameter. It is the path to reference directory including prefix of the plink reference files bed, bim and fam
-#' @param path2leadSNPList Full path to the SNP list 
+#' @param path2PlinkPrefix Plink bfile parameter. It is the path to reference directory including prefix of the plink reference files bed, bim and fam.
+#' @param path2leadSNPList Full path to the SNP list. 
 #' @param ld_window_kb Plink parameter ld_window_kb denotes the maximum distance between LD buddies (default is 1000).
 #' @param ld_window_r2 Plink parameter ld_window_r2 denoted the minimum correlation  between LD buddies (default is 0.8).
 #' @param path2Proxies Path to directory where the result will be written.

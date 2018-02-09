@@ -5,16 +5,16 @@
 #' correction if needed, saves the results in a file. In addition, the function draws descriptive 
 #' figures of the process.
 #'
-#' @param regionPath Path to file that contains the genomic regions 
-#' @param regionHeader Header of the genomics regions file
-#' @param SNPsnapPath Path to SNPsnap results
+#' @param regionPath Path to file that contains the genomic regions. 
+#' @param regionHeader Header of the genomics regions file.
+#' @param SNPsnapPath Path to SNPsnap results.
 #' @param numberOfRandomSNPsets The number of SNPs in a random SNP sets.
-#' @param proxyPathPrefix  Path containing the prefix for the directoty of proxy SNPs.
+#' @param proxyPathPrefix  Path to the SNP file containing the file prefix (the extension is ld). The column SNP_A contains the names of the input SNPs. Columns CHR_B and BP_B contain the chromosome and the position of the SNP used in statistical hypothesis testing.   
 #' @param traitShort Vector of abbreviated trait name.
 #' @param traitsLong Vector of official name for traits.
-#' @param genomicRegionsName The name describing the genomic regions
-#' @param cores The number of cores use in parallel computation 
-#' @param resDir Path to directory where the results are stored
+#' @param genomicRegionsName The name describing the genomic regions.
+#' @param cores The number of cores use in parallel computation. 
+#' @param resDir Path to directory where the results are stored.
 #' 
 #' @return None
 #' 
@@ -28,14 +28,16 @@
 #' @author Kari Nousiainen, Kartiek Kanduri
 #' 
 #' @examples
-#'function(regionPath,SNPsnapPath,numberOfRandomSNPsets,LSProxyPathPrefix,BGProxyPathPrefix,traitShort,genomicRegionsName,cores,resDir)
+#'function(regionPath,SNPsnapPath,numberOfRandomSNPsets,proxyPathPrefix,traitShort,genomicRegionsName,cores,resDir)
 
-analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPsnapPath,numberOfRandomSNPsets,LSProxyPathPrefix,BGProxyPathPrefix,traitShort,genomicRegionsName,cores,resDir,traitsLong=NULL)
+analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPsnapPath,numberOfRandomSNPsets,proxyPathPrefix,traitShort,genomicRegionsName,cores,resDir,traitsLong=NULL)
 {
   library(GenomicFeatures)
-  library(dplyr)
+  library(readr)
+  library(tidyr)
   library(dplyr)
   library(parallel)
+  library(ggplot2)
 
   
   regions <- as.data.frame(read.table(regionPath))
@@ -51,13 +53,13 @@ analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPs
   return(snpDat)}
 
   # Read SNP proxies
-  readProx <- function(x,proxyPathPrefix){
-    return(read.table(file.path(proxyPathPrefix,paste0(x,'.ld')),sep = '',header = T,stringsAsFactors=F))
-    }
+  readProx <- function(x){
+    return(read.table(paste0(proxyPathPrefix,x,'.ld'),sep = '',header = T))
+  }
 
 # Get proxies for each set and their respective overlaps
   getOl <- function(w,y,z){
-    y1 <- w %>% dplyr::filter(SNP_A %in% as.vector(unlist(y))) %>% dplyr::select(4,5) %>% unique()
+    y1 <- w %>% dplyr::filter(SNP_A %in% as.vector(unlist(y))) %>% dplyr::select(CHR_B,BP_B) %>% unique()
     colnames(y1) <- c('chr','start')
     y1$chr <- paste0('chr',y1$chr)
     f1 <- with(y1,GRanges(chr,IRanges(start = start,width = 1)))
@@ -66,11 +68,8 @@ analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPs
 # Analyse the data and write results
   analyzeOVs <- function(x){
     snpSets <- getSNPDat(x)
-    LeadSNPProx <- readProx(x,LSProxyPathPrefix)
-    BGPSNPProx <- readProx(x,BGProxyPathPrefix)
-    ovList1 <- apply(snpSets[,1,drop=F],2,getOl,w=LeadSNPProx,z=f2)
-    ovList2 <- apply(snpSets[,2:(numberOfRandomSNPsets+1),drop=F],2,getOl,w=BGPSNPProx,z=f2)
-    ovList=data.frame(ovList=c(ovList1,ovList2))
+    allProx <- readProx(x)
+    ovList <- apply(snpSets,2,getOl,w=allProx,z=f2) 
     write_tsv(as.data.frame(ovList),file.path(resDir,paste0('Overlaps_',x,'.txt')))}
 
 
@@ -116,14 +115,14 @@ analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPs
 
   # Plot the number of SNPs for diseases
   if(is.null(traitsLong)) { 
-      traitsLong <- traitShort#c('Ankylosing spondylitis','Celiac disease','Crohn\'s disease','Immunoglobulin A','Multiple sclerosis','Primary biliary cirrhosis','Psoriasis','Rheumatoid arthritis','Systemic lupus erythematosus','Type 1 diabetes','Ulcerative colitis')
+      traitsLong <- traitShort
   }
   disVal <- disVal[-(length(traitsLong)+1),]
   disVal$dis <-traitsLong
   png(file.path(resDir,'autImmDisSNPs.png'),width=9,height=9,res=300,units = 'in')
       ggplot(disVal,aes(dis,val)) + geom_bar(stat='identity') + 
       ggthemes::theme_tufte(base_size=18) + coord_flip() + 
-      labs(title=sprintf('Lead SNPs and their proxies from \n %s overlapping %s genomicregions', traitShort,genomicRegionsName),y='Number of SNPs',x=NULL) + 
+      labs(title=sprintf('Lead SNPs and their proxies from \n %s overlapping %s genomic regions', traitShort,genomicRegionsName),y='Number of SNPs',x=NULL) + 
       theme(axis.text = element_text(face = 'bold',size = 18))
   dev.off()
 

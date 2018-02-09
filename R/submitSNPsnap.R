@@ -3,25 +3,25 @@
 #' SubmitSNPsnap submits a query to SNPsnap server for creating random sets of SNPs matching input SNPs and 
 #' the criteria given by the user.
 #'
-#' @param snplist List of SNPs
-#' @param super_population Super population to use; defaults to 'EUR'
-#' @param distance_type Distance type; default is 'ld'
-#' @param distance Distance to use
-#' @param max_freq_deviation Percentage deviation from query SNP minor allele frequency
-#' @param max_genes_count_deviation Gene density deviation from query SNP
-#' @param max_distance_deviation Gene distance deviation from query SNP
-#' @param max_ld_buddy_count_deviation Deviation of number of LD buddies near query SNP 
-#' @param ld_buddy_cutoff Cutoff of R2 while calculation LD buddies
-#' @param N_sample_sets Number of SNP sets requested
-#' @param annotate_matched a logical value to annotate matched SNPs
-#' @param annotate_input a logical value to annotate input SNPs
-#' @param clump_input a logical value to report clumping of input SNPs
-#' @param clump_r2 R2 cutoff for clumping
-#' @param clump_kb Distance cutoff for clumping
-#' @param exclude_input_SNPs a logical value to exclude input SNPs in matched SNPs
-#' @param exclude_HLA_SNPs a logical value to exclude HLA SNPs
-#' @param email_address Your email address
-#' @param job_name Job name
+#' @param snplist List of SNPs.
+#' @param super_population Super population to use; defaults to 'EUR'.
+#' @param distance_type Distance type; default is 'ld'.
+#' @param distance Distance to use.
+#' @param max_freq_deviation Percentage deviation from query SNP minor allele frequency.
+#' @param max_genes_count_deviation Gene density deviation from query SNP.
+#' @param max_distance_deviation Gene distance deviation from query SNP.
+#' @param max_ld_buddy_count_deviation Deviation of number of LD buddies near query SNP. 
+#' @param ld_buddy_cutoff Cutoff of R2 while calculation LD buddies.
+#' @param N_sample_sets Number of SNP sets requested.
+#' @param annotate_matched a logical value to annotate matched SNPs.
+#' @param annotate_input a logical value to annotate input SNPs.
+#' @param clump_input a logical value to report clumping of input SNPs.
+#' @param clump_r2 R2 cutoff for clumping.
+#' @param clump_kb Distance cutoff for clumping.
+#' @param exclude_input_SNPs a logical value to exclude input SNPs in matched SNPs.
+#' @param exclude_HLA_SNPs a logical value to exclude HLA SNPs.
+#' @param email_address Your email address.
+#' @param job_name Job name. SNPsnap results are written in a zip file called SNPsnap_jobname.
 #'
 #' @return Returns a URL from which results can be downloaded
 #' @author Kartiek Kanduri, Kari Nousiainen

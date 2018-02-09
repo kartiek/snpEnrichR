@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2018-02-08" />
+<meta name="date" content="2018-02-09" />
 
 <title>Basic usage of snpEnrichR package</title>
 
@@ -118,7 +118,7 @@ $(document).ready(function () {
 <p class="author-name">Kari Nousiainen<span class="affil-mark">1*</span> and Kartiek Kanduri<span class="affil-mark">1,2**</span></p>
 <p class="author-affiliation"><span class="affil-mark">1</span>Aalto Univerisity School of Science<br><span class="affil-mark">2</span>University of Turku</p>
 <p class="author-email"><span class="affil-mark">*</span><a href="mailto:Kari.Nousiainen@Aalto.FI">Kari.Nousiainen@Aalto.FI</a><br><span class="affil-mark">**</span><a href="mailto:Kartiek.Kanduri@Aalto.FI">Kartiek.Kanduri@Aalto.FI</a></p>
-<h4 class="date"><em>2018-02-08</em></h4>
+<h4 class="date"><em>2018-02-09</em></h4>
 <h4 class="package">Package</h4>
 <p>snpEnrichR 0.0.1</p>
 
@@ -234,20 +234,24 @@ ch = import.chain('data/hg38ToHg19.over.chain')
 # HLA regions to be filtered out
 HLA &lt;- GRanges( Rle(&quot;6&quot;,1),IRanges(25000000,35000000))
 snpObjects &lt;- sort(unique(makeGRangesFromDataFrame(snpTable, 
-seqnames.field=&quot;chr&quot;,keep.extra.columns=TRUE)))
+                                                   seqnames.field=&quot;chr&quot;,
+                                                   keep.extra.columns=TRUE)))
 seqlevelsStyle(snpObjects) &lt;- &quot;UCSC&quot;
 snpObjectsLiftedOver&lt;-unlist(liftOver(snpObjects, ch))
-if (any(countOverlaps(snpObjectsLiftedOver, HLA)&lt;1L))
-    snpObjectsLiftedOver &lt;- snpObjectsLiftedOver[countOverlaps(snpObjectsLiftedOver, HLA)&lt;1L,]
+
+# No warnings if no overlaps occur
+options('warn'=-1)
+snpObjectsLiftedOver &lt;- snpObjectsLiftedOver[countOverlaps(snpObjectsLiftedOver,                                                                 HLA)&lt;1L,]
+
 snpsNewCoords&lt;-data.frame(snpObjectsLiftedOver)
-snpList &lt;- apply(snpsNewCoords[,1:2],1,function(x) gsub(&quot;chr&quot;,&quot;&quot;,paste(trimws(x),collapse =&quot;:&quot;))) </code></pre>
+snpList &lt;- apply(snpsNewCoords[,1:2],1,function(x) gsub(&quot;chr&quot;,&quot;&quot;, paste(trimws(x), collapse =&quot;:&quot;))) </code></pre>
 </div>
 <div id="clumpsnps-decorrelate-snp-sets" class="section level1">
 <h1><span class="header-section-number">6</span> <code>clumpSNPs</code>: Decorrelate SNP sets</h1>
 <p>SNPs must be decorrelated as correlated SNPs cause biases when drawing random SNP sets.</p>
-<pre class="r"><code>snpList &lt;-clumpSNPs('../Data/ThousandGenomes/1kp3_snpSNAP',
+<pre class="r"><code>snpList &lt;-clumpSNPs('data/ThousandGenomes/1kp3_snpSNAP',
                     snpList,
-                    '../Data/non_clumped_snp',
+                    'data/non_clumped_snp',
                     0.8,
                     1000)</code></pre>
 </div>
@@ -266,50 +270,43 @@ snpList &lt;- apply(snpsNewCoords[,1:2],1,function(x) gsub(&quot;chr&quot;,&quot
                           job_name=&quot;PS&quot;)</code></pre>
 <p>When available, the snpSNAP results can be downloaded.</p>
 <pre class="r"><code>  download.file(snpSNAPUrl,
-                &quot;../Data/SNPSnap_Psoriasis_download&quot;,
+                &quot;data/SNPSnap_Psoriasis_download&quot;,
                 method=&quot;wget&quot;,
                 quiet = FALSE, 
                 mode = &quot;w&quot;)
-  unzip(zipfile=&quot;../Data/SNPSnap_dl&quot;,exdir=&quot;../Data/&quot;)</code></pre>
+  unzip(zipfile=&quot;data/SNPSnap_dl&quot;,exdir=&quot;data/&quot;)</code></pre>
 <p>In addition to randomized SNP sets, SNPsnap output files contain information needed for quality control. It is important to confirm everything is order before continuing.</p>
-<pre class="r"><code>&gt; dir(&quot;../Data/SNPsnap_Psoriasis/&quot;)</code></pre>
+<pre class="r"><code>&gt; dir(&quot;data/SNPsnap_Psoriasis/&quot;)</code></pre>
 <pre><code>[1] &quot;input_snps_clumped.txt&quot;              &quot;input_snps_excluded.txt&quot;            
 [3] &quot;input_snps_identifer_mapping.txt&quot;    &quot;input_snps_insufficient_matches.txt&quot;
 [5] &quot;matched_snps.txt&quot;                    &quot;snpsnap_summary.txt&quot;    </code></pre>
 <p>If became confident, the matched SNPs can be downloaded</p>
 <!--
-%```R
-%matchedSnps <- read.table(file.path("../Data/SNPsnap_Psoriasis/",
-%                                    "matched_snps.txt"),
-%                           stringsAsFactors = F,
-%                           header=T)
+```R
+
 %```
 -->
 </div>
 <div id="findproxies-find-ld-buddies-for-snps" class="section level1">
 <h1><span class="header-section-number">8</span> <code>findProxies</code>: Find LD buddies for SNPs</h1>
 <p><code>findProxies</code> computes proxy SNPs for given SNP list</p>
-<pre class="r"><code>findProxies(path2PlinkPrefix=&quot;../Data/ThousandGenomes/1kp3_snpSNAP&quot;,
-            snplist=matchedSnps[,1],
-            path2Proxies=&quot;../Data/Psoriasis/input_Proxies/PS&quot;)
+<pre class="r"><code>findProxies(path2PlinkPrefix=&quot;data/ThousandGenomes/1kp3_snpSNAP&quot;,
+            snplist=unlist(matchedSnps),
+            path2Proxies=&quot;data/Psoriasis/proxies/&quot;)
             
-findProxies(&quot;/l/snp/new/Data/ThousandGenomes/1kp3_snpSNAP&quot;,
-            unique(unlist(matchedSnps[,-1])),
-            path2Proxies = &quot;../Data/Psoriasis/snpsnap_Proxies/PS&quot;)
-            </code></pre>
+</code></pre>
 </div>
 <div id="analyzeenrichment-perform-the-actual-analysis" class="section level1">
 <h1><span class="header-section-number">9</span> <code>analyzeEnrichment</code>: Perform the actual analysis</h1>
-<pre><code>analyzeEnrichment(regionPath=&quot;../Data/myTFBSites.tsv&quot;,
+<pre><code>analyzeEnrichment(regionPath=&quot;data/myTFBSites.tsv&quot;,
                   regionHeader=c('chr','start','end'),
-                  SNPsnapPath=&quot;../Data/SNPsnap_&quot;,
+                  SNPsnapPath=&quot;data/SNPsnap_&quot;,
                   numberOfRandomSNPsets=1000,
-                  LSProxyPathPrefix=&quot;../Data/Psoriasis/input_Proxies&quot;,
-                  BGProxyPathPrefix=&quot;../Data/Psoriasis/snpsnap_Proxies&quot;,
+                  proxyPathPrefix=&quot;data/Psoriasis/proxies/&quot;,
                   traitShort=&quot;PS&quot;,
                   genomicRegionsName=&quot;TF Binding sites&quot;,
                   cores=4,
-                  resDir=&quot;../Data/snpEnrichROutput&quot;,
+                  resDir=&quot;data/snpEnrichROutput&quot;,
                   traitsLong=&quot;Psoriasis&quot;)
 </code></pre>
 <!--

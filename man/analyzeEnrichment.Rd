@@ -5,29 +5,29 @@
 \title{analyzeEnrichment}
 \usage{
 analyzeEnrichment(regionPath, regionHeader = c("chr", "start", "end"),
-  SNPsnapPath, numberOfRandomSNPsets, LSProxyPathPrefix, BGProxyPathPrefix,
-  traitShort, genomicRegionsName, cores, resDir, traitsLong = NULL)
+  SNPsnapPath, numberOfRandomSNPsets, proxyPathPrefix, traitShort,
+  genomicRegionsName, cores, resDir, traitsLong = NULL)
 }
 \arguments{
-\item{regionPath}{Path to file that contains the genomic regions}
+\item{regionPath}{Path to file that contains the genomic regions.}
 
-\item{regionHeader}{Header of the genomics regions file}
+\item{regionHeader}{Header of the genomics regions file.}
 
-\item{SNPsnapPath}{Path to SNPsnap results}
+\item{SNPsnapPath}{Path to SNPsnap results.}
 
 \item{numberOfRandomSNPsets}{The number of SNPs in a random SNP sets.}
 
+\item{proxyPathPrefix}{Path to the SNP file containing the file prefix (the extension is ld). The column SNP_A contains the names of the input SNPs. Columns CHR_B and BP_B contain the chromosome and the position of the SNP used in statistical hypothesis testing.}
+
 \item{traitShort}{Vector of abbreviated trait name.}
 
-\item{genomicRegionsName}{The name describing the genomic regions}
+\item{genomicRegionsName}{The name describing the genomic regions.}
 
-\item{cores}{The number of cores use in parallel computation}
+\item{cores}{The number of cores use in parallel computation.}
 
-\item{resDir}{Path to directory where the results are stored}
+\item{resDir}{Path to directory where the results are stored.}
 
 \item{traitsLong}{Vector of official name for traits.}
-
-\item{proxyPathPrefix}{Path containing the prefix for the directoty of proxy SNPs.}
 }
 \value{
 None
@@ -39,7 +39,7 @@ correction if needed, saves the results in a file. In addition, the function dra
 figures of the process.
 }
 \examples{
-function(regionPath,SNPsnapPath,numberOfRandomSNPsets,LSProxyPathPrefix,BGProxyPathPrefix,traitShort,genomicRegionsName,cores,resDir)
+function(regionPath,SNPsnapPath,numberOfRandomSNPsets,proxyPathPrefix,traitShort,genomicRegionsName,cores,resDir)
 }
 \author{
 Kari Nousiainen, Kartiek Kanduri

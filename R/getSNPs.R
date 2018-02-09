@@ -5,7 +5,7 @@
 #'
 #' @param queryTerm The query term for EBI GWAS. See https://www.ebi.ac.uk/gwas/ for details.
 #'
-#' @return Returns a data frame of SNPs from EBI's server
+#' @return Returns a data frame of SNPs from EBI's server.
 #' @export
 #' @importFrom httr parse_url build_url content GET
 #' @importFrom utils URLdecode URLencode

@@ -14,43 +14,43 @@ submitSNPsnap(snplist, super_population = c("EUR", "EAS", "WAFR"),
   email_address, job_name)
 }
 \arguments{
-\item{snplist}{List of SNPs}
+\item{snplist}{List of SNPs.}
 
-\item{super_population}{Super population to use; defaults to 'EUR'}
+\item{super_population}{Super population to use; defaults to 'EUR'.}
 
-\item{distance_type}{Distance type; default is 'ld'}
+\item{distance_type}{Distance type; default is 'ld'.}
 
-\item{distance}{Distance to use}
+\item{distance}{Distance to use.}
 
-\item{max_freq_deviation}{Percentage deviation from query SNP minor allele frequency}
+\item{max_freq_deviation}{Percentage deviation from query SNP minor allele frequency.}
 
-\item{max_genes_count_deviation}{Gene density deviation from query SNP}
+\item{max_genes_count_deviation}{Gene density deviation from query SNP.}
 
-\item{max_distance_deviation}{Gene distance deviation from query SNP}
+\item{max_distance_deviation}{Gene distance deviation from query SNP.}
 
-\item{max_ld_buddy_count_deviation}{Deviation of number of LD buddies near query SNP}
+\item{max_ld_buddy_count_deviation}{Deviation of number of LD buddies near query SNP.}
 
-\item{ld_buddy_cutoff}{Cutoff of R2 while calculation LD buddies}
+\item{ld_buddy_cutoff}{Cutoff of R2 while calculation LD buddies.}
 
-\item{N_sample_sets}{Number of SNP sets requested}
+\item{N_sample_sets}{Number of SNP sets requested.}
 
-\item{annotate_matched}{a logical value to annotate matched SNPs}
+\item{annotate_matched}{a logical value to annotate matched SNPs.}
 
-\item{annotate_input}{a logical value to annotate input SNPs}
+\item{annotate_input}{a logical value to annotate input SNPs.}
 
-\item{clump_input}{a logical value to report clumping of input SNPs}
+\item{clump_input}{a logical value to report clumping of input SNPs.}
 
-\item{clump_r2}{R2 cutoff for clumping}
+\item{clump_r2}{R2 cutoff for clumping.}
 
-\item{clump_kb}{Distance cutoff for clumping}
+\item{clump_kb}{Distance cutoff for clumping.}
 
-\item{exclude_input_SNPs}{a logical value to exclude input SNPs in matched SNPs}
+\item{exclude_input_SNPs}{a logical value to exclude input SNPs in matched SNPs.}
 
-\item{exclude_HLA_SNPs}{a logical value to exclude HLA SNPs}
+\item{exclude_HLA_SNPs}{a logical value to exclude HLA SNPs.}
 
-\item{email_address}{Your email address}
+\item{email_address}{Your email address.}
 
-\item{job_name}{Job name}
+\item{job_name}{Job name. SNPsnap results are written in a zip file called SNPsnap_jobname.}
 }
 \value{
 Returns a URL from which results can be downloaded

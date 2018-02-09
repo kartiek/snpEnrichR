@@ -10,7 +10,7 @@ getSNPs(queryTerm)
 \item{queryTerm}{The query term for EBI GWAS. See https://www.ebi.ac.uk/gwas/ for details.}
 }
 \value{
-Returns a data frame of SNPs from EBI's server
+Returns a data frame of SNPs from EBI's server.
 }
 \description{
 GetSNPs takes a character string and sends it to NHGRI-EBI GWAS Catalog as the query term 

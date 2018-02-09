@@ -114,21 +114,25 @@ ch = import.chain('data/hg38ToHg19.over.chain')
 # HLA regions to be filtered out
 HLA <- GRanges( Rle("6",1),IRanges(25000000,35000000))
 snpObjects <- sort(unique(makeGRangesFromDataFrame(snpTable, 
-seqnames.field="chr",keep.extra.columns=TRUE)))
+                                                   seqnames.field="chr",
+                                                   keep.extra.columns=TRUE)))
 seqlevelsStyle(snpObjects) <- "UCSC"
 snpObjectsLiftedOver<-unlist(liftOver(snpObjects, ch))
-if (any(countOverlaps(snpObjectsLiftedOver, HLA)<1L))
-    snpObjectsLiftedOver <- snpObjectsLiftedOver[countOverlaps(snpObjectsLiftedOver, HLA)<1L,]
+
+# No warnings if no overlaps occur
+options('warn'=-1)
+snpObjectsLiftedOver <- snpObjectsLiftedOver[countOverlaps(snpObjectsLiftedOver,                                                                 HLA)<1L,]
+
 snpsNewCoords<-data.frame(snpObjectsLiftedOver)
-snpList <- apply(snpsNewCoords[,1:2],1,function(x) gsub("chr","",paste(trimws(x),collapse =":"))) 
+snpList <- apply(snpsNewCoords[,1:2],1,function(x) gsub("chr","", paste(trimws(x), collapse =":"))) 
 ```
 
 # `clumpSNPs`: Decorrelate  SNP sets 
 SNPs must be decorrelated as correlated SNPs cause biases when drawing random SNP sets.
 ```R
-snpList <-clumpSNPs('../Data/ThousandGenomes/1kp3_snpSNAP',
+snpList <-clumpSNPs('data/ThousandGenomes/1kp3_snpSNAP',
                     snpList,
-                    '../Data/non_clumped_snp',
+                    'data/non_clumped_snp',
                     0.8,
                     1000)
 ```
@@ -150,16 +154,16 @@ snpSNAPUrl = submitSNPsnap(snpList,
 When available, the snpSNAP results can be downloaded.
 ```R
   download.file(snpSNAPUrl,
-                "../Data/SNPSnap_Psoriasis_download",
+                "data/SNPSnap_Psoriasis_download",
                 method="wget",
                 quiet = FALSE, 
                 mode = "w")
-  unzip(zipfile="../Data/SNPSnap_dl",exdir="../Data/")
+  unzip(zipfile="data/SNPSnap_dl",exdir="data/")
 ```
 
 In addition to randomized SNP sets, SNPsnap output files contain information needed for quality control. It is important to confirm everything is order before continuing.
 ```R
-> dir("../Data/SNPsnap_Psoriasis/")
+> dir("data/SNPsnap_Psoriasis/")
 ```
 ```
 [1] "input_snps_clumped.txt"              "input_snps_excluded.txt"            
@@ -169,11 +173,8 @@ In addition to randomized SNP sets, SNPsnap output files contain information nee
 If became confident, the matched SNPs can be downloaded 
 
 <!--
-%```R
-%matchedSnps <- read.table(file.path("../Data/SNPsnap_Psoriasis/",
-%                                    "matched_snps.txt"),
-%                           stringsAsFactors = F,
-%                           header=T)
+```R
+
 %```
 -->
 
@@ -181,28 +182,24 @@ If became confident, the matched SNPs can be downloaded
  `findProxies` computes proxy SNPs for given SNP list
 
 ```R
-findProxies(path2PlinkPrefix="../Data/ThousandGenomes/1kp3_snpSNAP",
-            snplist=matchedSnps[,1],
-            path2Proxies="../Data/Psoriasis/input_Proxies/PS")
+findProxies(path2PlinkPrefix="data/ThousandGenomes/1kp3_snpSNAP",
+            snplist=unlist(matchedSnps),
+            path2Proxies="data/Psoriasis/proxies/")
             
-findProxies("/l/snp/new/Data/ThousandGenomes/1kp3_snpSNAP",
-            unique(unlist(matchedSnps[,-1])),
-            path2Proxies = "../Data/Psoriasis/snpsnap_Proxies/PS")
-            
+
 ```
 # `analyzeEnrichment`: Perform the actual analysis
 
 ```
-analyzeEnrichment(regionPath="../Data/myTFBSites.tsv",
+analyzeEnrichment(regionPath="data/myTFBSites.tsv",
                   regionHeader=c('chr','start','end'),
-                  SNPsnapPath="../Data/SNPsnap_",
+                  SNPsnapPath="data/SNPsnap_",
                   numberOfRandomSNPsets=1000,
-                  LSProxyPathPrefix="../Data/Psoriasis/input_Proxies",
-                  BGProxyPathPrefix="../Data/Psoriasis/snpsnap_Proxies",
+                  proxyPathPrefix="data/Psoriasis/proxies/",
                   traitShort="PS",
                   genomicRegionsName="TF Binding sites",
                   cores=4,
-                  resDir="../Data/snpEnrichROutput",
+                  resDir="data/snpEnrichROutput",
                   traitsLong="Psoriasis")
 
 ```
