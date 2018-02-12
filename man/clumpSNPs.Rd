@@ -28,3 +28,8 @@ representative for every clump.
 \examples{
 snpList <- clumpSNPs(plinkPathPrefix,snplist,outputPath,clump_r2,clump_kb)
 }
+\references{
+Chang, C. C., Chow, C. C., Tellier, L. C., Vattikuti, S., Purcell, S. M., Lee, J. J. (2015). Second-generation PLINK: rising to the challenge of larger and richer datasets. \emph{Gigascience}, 4(1), 7.
+
+Purcell S.M., Chang C.C. \emph{PLINK 1.9} \url{ www.cog-genomics.org/plink/1.9/}.
+}

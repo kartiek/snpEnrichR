@@ -25,6 +25,13 @@ and writes them to a file.
 \examples{
 findProxies(path2PlinkPrefix, snplist, path2Proxies)
 }
+\references{
+Chang, C. C., Chow, C. C., Tellier, L. C., Vattikuti, S., Purcell, S. M., Lee, J. J. (2015). Second-generation PLINK: rising to the challenge of larger and richer datasets. \emph{Gigascience}, 4(1), 7.
+
+Purcell S.M., Chang C.C. \emph{PLINK 1.9} \url{ www.cog-genomics.org/plink/1.9/}.
+
+Gaunt, T. R., Rodríguez, S., Day, I. N. (2007). Cubic exact solutions for the estimation of pairwise haplotype frequencies: implications for linkage disequilibrium analyses and a web tool'CubeX'. \emph{BMC bioinformatics}, 8(1), 428.
+}
 \author{
 Kari Nousiainen
 }

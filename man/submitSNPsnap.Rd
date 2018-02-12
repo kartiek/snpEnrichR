@@ -62,6 +62,9 @@ the criteria given by the user.
 \examples{
 submitSNPsnap(snplist=snps,email_address='kartiek.kanduri@aalto.fi')
 }
+\references{
+Pers, T. H., Timshel, P., Hirschhorn, J. N. (2014). SNPsnap: a Web-based tool for identification and annotation of matched SNPs. \emph{Bioinformatics}, 31(3), 418-420.
+}
 \author{
 Kartiek Kanduri, Kari Nousiainen
 }

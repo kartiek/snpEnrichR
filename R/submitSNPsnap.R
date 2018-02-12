@@ -30,7 +30,7 @@
 #' @importFrom readr write_tsv
 #' @examples
 #' submitSNPsnap(snplist=snps,email_address='kartiek.kanduri@aalto.fi')
-
+#' @references Pers, T. H., Timshel, P., Hirschhorn, J. N. (2014). SNPsnap: a Web-based tool for identification and annotation of matched SNPs. \emph{Bioinformatics}, 31(3), 418-420.
 submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
                           distance_type = c('ld','kb'), distance, max_freq_deviation = seq(1,50,1),
                           max_genes_count_deviation, max_distance_deviation,
