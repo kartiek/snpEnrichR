@@ -2,7 +2,7 @@ Package: snpEnrichR
 Type: Package
 Title: Methods for automating enrichment analysis of GWAS SNPs
 Version: 0.0.1
-Author: Kartiek Kanduri
+Author: Kari Nousiainen, Kartiek Kanduri
 Maintainer: Kartiek Kanduri <kartiek.kanduri@gmail.com>
 Description: This packages contains methods for automating and testing enrichment of GWAS SNPs among genomic features.
 License: GPL
