@@ -25,7 +25,7 @@
 #' @import RSelenium
 #' @importFrom readr write_tsv
 #' @examples
-#' submitSNPsnap(snplist=snps,email_address='kartiek.kanduri@aalto.fi)
+#' submitSNPsnap(snplist=snps,email_address='kartiek.kanduri@aalto.fi')
 
 submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
                           distance_type = c('ld','kb'), distance, max_freq_deviation = seq(1,50,1),
@@ -35,70 +35,18 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
                           clump_input = TRUE, clump_r2 = seq(0.1,0.9,0.1), clump_kb = seq(100,1000,100),
                           exclude_input_SNPs = TRUE, exclude_HLA_SNPs = TRUE,
                           email_address, job_name){
-  library(RSelenium)
-  tFile <- tempfile(fileext = '.txt')
-  readr::write_tsv(as.data.frame(snplist),tFile)
-  if(missing(super_population)){super_population <- 'EUR'}
-  else{ super_population <- match.arg(super_population) }
-  if (missing(distance_type)){distance_type <- 'ld'}
-  else{ distance_type <- match.arg(distance_type) }
-  valid_distances <- distance_type
-  valid_distances <- switch (valid_distances, ld = seq(0.1,0.9,0.1), kb = seq(100,1000,100))
-  if ( !(distance %in% valid_distances) ) {
-    stop("invalid distance. distance must be one of: ",
-         paste( valid_distances, collapse = ", "), call. = FALSE)
-  }
-  if( missing(max_freq_deviation) ){ max_freq_deviation <- 5 }
-  else { max_freq_deviation <- match.arg(max_freq_deviation)}
-  if(missing(max_genes_count_deviation)){max_genes_count_deviation <- 50}
-  else if ( max_genes_count_deviation < 1 ) {
-    stop("invalid max_genes_count_deviation. max_genes_count_deviation must be greater than or equal to 1", call. = FALSE)
-  }
-  if(missing(max_distance_deviation)){max_distance_deviation <- 50}
-  else if ( max_distance_deviation < 1 ) {
-    stop("invalid max_distance_deviation. max_distance_deviation must be greater than or equal to 1", call. = FALSE)
-  }
-  if(missing(max_ld_buddy_count_deviation)){max_ld_buddy_count_deviation <- 50}
-  else if ( max_ld_buddy_count_deviation < 1 ) {
-    stop("invalid max_ld_buddy_count_deviation. max_ld_buddy_count_deviation must be greater than or equal to 1", call. = FALSE)
-  }
-  valid_lds <- seq(0.1,0.9,0.1)
-  if(missing(ld_buddy_cutoff)){ld_buddy_cutoff <- 0.5}
-  else if ( !(ld_buddy_cutoff %in%  valid_lds) ) {
-    stop("invalid ld. Value must be one of: ",
-         paste( valid_lds, collapse = ", "), call. = FALSE)
-  }
-  else{ld_buddy_cutoff <- match.arg(ld_buddy_cutoff)}
-  if(missing(N_sample_sets)){N_sample_sets <- 10000}
-  else if ( N_sample_sets < 1 || N_sample_sets > 20000) {
-    stop("invalid N_sample_sets. N_sample_sets must be between 1 and 20000", call. = FALSE)
-  }
-  if(missing(annotate_matched)){annotate_matched <- FALSE}
-  if(missing(annotate_input)){annotate_input <- FALSE}
-  if(missing(clump_input)){clump_input <- TRUE}
-  if ( clump_input == TRUE ){
-    if ( !(clump_r2 %in%  valid_lds) ) {
-      stop("invalid clumping ld. Value must be one of: ",
-           paste( valid_lds, collapse = ", "), call. = FALSE)
-    }
-    valid_kbs = seq(100,1000,100)
-    if ( !(clump_kb %in%  valid_kbs) ) {
-      stop("invalid clumping distance. Value must be one of: ",
-           paste( valid_kbs, collapse = ", "), call. = FALSE)
-    }
-    clump_r2 <- match.arg(clump_r2)
-    clump_kb <- match.arg(clump_kb)
-  }
-  if(missing(exclude_input_SNPs)){exclude_input_SNPs <- TRUE}
-  if(missing(exclude_HLA_SNPs)){exclude_HLA_SNPs <- TRUE}
-  if(missing(job_name)){job_name <- 'testJob'}
-  if(! is.character(job_name))  {stop("Parameter job_name should be a string.", call. = FALSE)}
-  if(missing(email_address)){
-    stop("Please provide an email address", call. = FALSE) }
-  else if(! is.character(email_address))  {stop("Parameter email_address should be a string.", call. = FALSE)}
+  
   rD <- rsDriver(verbose = FALSE, browser = 'phantomjs')
   remDr <- rD$client
-  remDr$navigate("https://data.broadinstitute.org/mpg/snpsnap/match_snps.html")
+  
+  remDr$navigate(snpSnapURL)
+  
+  aplyArgs <- c(snplist_fileupload, super_population, max_freq_deviation, max_genes_count_deviation,
+                max_distance_deviation, max_ld_buddy_count_deviation, ld_buddy_cutoff, 
+                N_sample_sets, job_name, email_address)
+  
+  
+  
   remDr$findElement(using = 'name', value = "snplist_fileupload")$sendKeysToElement(list(tFile))
   remDr$findElement(using = 'name', value = "super_population")$sendKeysToElement(list(super_population))
   if ( distance_type == 'kb' ){
@@ -149,9 +97,13 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
   remDr$findElement(using = 'name', value = "email_address")$sendKeysToElement(list(email_address))
   remDr$findElement(using = 'class', value = 'btn-success')$clickElement()
   webElem <- remDr$findElement(using = 'class', value = 'btn-success')
+  
   urlOut <- webElem$getElementAttribute('href')[[1]]
+  
   message('Results can be downloaded from ',webElem$getElementAttribute('href')[[1]])
+  
   remDr$close()
   rD$server$stop()
+  
   return(urlOut)
 }
