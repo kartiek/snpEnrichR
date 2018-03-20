@@ -21,6 +21,7 @@
 #' @param job_name Job name
 #'
 #' @return Returns a URL from which results can be downloaded
+#' @author Kartiek Kanduri, Kari Nousiainen
 #' @export
 #' @import RSelenium
 #' @importFrom readr write_tsv

@@ -1,24 +1,40 @@
-#' Title
+#' analyzeEnrichment
+#' 
+#' Main function computes the overlaps between snps and genomic regions,
+#' computes empirical p-values, performs Benjamini-Hochberg mutilple hypothesis
+#' correction if needed, saves the results in a file. In addition, the function draws descriptive 
+#' figures of the process.
 #'
-#' @param regionPath 
-#' @param regionHeader 
-#' @param SNPsnapPath 
-#' @param numberOfRandomSNPsets 
-#' @param proxyPathPrefix 
-#' @param traitShort 
-#' @param traitsLong 
-#' @param genomicRegionsName 
-#' @param cores
-#' @param resDir 
-#'
-#' @return
+#' @param regionPath Path to file that contains the genomic regions 
+#' @param regionHeader Header of the genomics regions file
+#' @param SNPsnapPath Path to SNPsnap results
+#' @param numberOfRandomSNPsets The number of SNPs in a random SNP sets.
+#' @param proxyPathPrefix  Path containing the prefix for the directoty of proxy SNPs.
+#' @param traitShort Vector of abbreviated trait name.
+#' @param traitsLong Vector of official name for traits.
+#' @param genomicRegionsName The name describing the genomic regions
+#' @param cores The number of cores use in parallel computation 
+#' @param resDir Path to directory where the results are stored
+#' 
+#' @return None
+#' 
 #' @export
-#'
+#' 
+#' @import GenomicFeatures 
+#' @import dplyr
+#' @import readr
+#' @import parallel
+#' 
+#' @author Kari Nousiainen, Kartiek Kanduri
+#' 
 #' @examples
+#'function(regionPath,SNPsnapPath,numberOfRandomSNPsets,LSProxyPathPrefix,BGProxyPathPrefix,traitShort,genomicRegionsName,cores,resDir)
+
 analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPsnapPath,numberOfRandomSNPsets,LSProxyPathPrefix,BGProxyPathPrefix,traitShort,genomicRegionsName,cores,resDir,traitsLong=NULL)
 {
   library(GenomicFeatures)
-  library(tidyverse)
+  library(dplyr)
+  library(dplyr)
   library(parallel)
 
   

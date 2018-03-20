@@ -21,5 +21,8 @@ clumpSNPs(plinkPathPrefix, snplist, outputPath, clump_r2, clump_kb)
 Returns SNP list with clumped SNP buddies
 }
 \description{
-Decipher a set of non-clumped SNPs from a list of SNPs
+Creates a list of non-clumped snps with one representative of each clump in the input snp list and writes it to a file.
+}
+\examples{
+snpList <- clumpSNPs(plinkPathPrefix,snplist,outputPath,clump_r2,clump_kb)
 }

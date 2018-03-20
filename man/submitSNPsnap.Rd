@@ -61,3 +61,6 @@ Submit list of SNPs to SNPsnap server
 \examples{
 submitSNPsnap(snplist=snps,email_address='kartiek.kanduri@aalto.fi')
 }
+\author{
+Kartiek Kanduri, Kari Nousiainen
+}
