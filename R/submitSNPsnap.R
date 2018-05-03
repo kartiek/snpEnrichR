@@ -21,12 +21,14 @@
 #' @param exclude_input_SNPs a logical value to exclude input SNPs in matched SNPs.
 #' @param exclude_HLA_SNPs a logical value to exclude HLA SNPs.
 #' @param email_address Your email address.
+#' @param ChainFilePath a UCSC chain format file to convert genome coordinates of the SNPs into hg19. 
 #' @param job_name Job name. SNPsnap results are written in a zip file called SNPsnap_jobname.
 #'
 #' @return Returns a URL from which results can be downloaded
 #' @author Kartiek Kanduri, Kari Nousiainen
 #' @export
 #' @import RSelenium
+#' @import rtracklayer
 #' @importFrom readr write_tsv
 #' @examples
 #' submitSNPsnap(snplist=snps,email_address='kartiek.kanduri@aalto.fi')
@@ -38,9 +40,30 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
                           N_sample_sets, annotate_matched = FALSE, annotate_input = FALSE,
                           clump_input = TRUE, clump_r2 = seq(0.1,0.9,0.1), clump_kb = seq(100,1000,100),
                           exclude_input_SNPs = TRUE, exclude_HLA_SNPs = TRUE,
-                          email_address, job_name){
+                          email_address, job_name,ChainFilePath = NULL) {
 
   library(RSelenium)
+  library(rtracklayer)
+  if (! is.null(ChainFilePath)) {
+    ch = import.chain(ChainFilePath)
+    scs <- unlist(sapply(snplist,function(x) strsplit(x,':'),USE.NAMES = F))
+    snpTable <- data.frame(cbind(scs[seq(1,length(scs),by=2)],
+                                 scs[seq(2,length(scs),by=2)],
+                                 scs[seq(2,length(scs),by=2)]
+                                 ),stringsAsFactors = F)
+    colnames(snpTable)<-c('chr','start','end')
+    
+    snpObjects <- sort(unique(makeGRangesFromDataFrame(snpTable, 
+                                                       seqnames.field="chr",
+                                                       keep.extra.columns=TRUE)))
+    seqlevelsStyle(snpObjects) <- "UCSC"
+    snpObjectsLiftedOver<-unlist(liftOver(snpObjects, ch))
+    snpsNewCoords<-data.frame(snpObjectsLiftedOver)
+    snplist <- apply(snpsNewCoords[,1:2],
+                     1,
+                     function(x) 
+                        gsub("chr","", paste(trimws(x), collapse =":")))
+  }
   tFile <- tempfile(fileext = '.txt')
   readr::write_tsv(as.data.frame(snplist),tFile)
   if(missing(super_population)){super_population <- 'EUR'}
