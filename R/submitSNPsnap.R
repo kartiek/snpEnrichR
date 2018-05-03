@@ -39,6 +39,7 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
                           clump_input = TRUE, clump_r2 = seq(0.1,0.9,0.1), clump_kb = seq(100,1000,100),
                           exclude_input_SNPs = TRUE, exclude_HLA_SNPs = TRUE,
                           email_address, job_name){
+<<<<<<< HEAD
   library(RSelenium)
   tFile <- tempfile(fileext = '.txt')
   readr::write_tsv(as.data.frame(snplist),tFile)
@@ -101,8 +102,20 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
     stop("Please provide an email address", call. = FALSE) }
   else if(! is.character(email_address))  {stop("Parameter email_address should be a string.", call. = FALSE)}
   rD <- rsDriver(verbose = FALSE)#, browser = 'phantomjs')
+=======
+  
+  rD <- rsDriver(verbose = FALSE, browser = 'phantomjs')
+>>>>>>> 86760a5787d00c5c180b11fc70633afd27981962
   remDr <- rD$client
-  remDr$navigate("https://data.broadinstitute.org/mpg/snpsnap/match_snps.html")
+  
+  remDr$navigate(snpSnapURL)
+  
+  aplyArgs <- c(snplist_fileupload, super_population, max_freq_deviation, max_genes_count_deviation,
+                max_distance_deviation, max_ld_buddy_count_deviation, ld_buddy_cutoff, 
+                N_sample_sets, job_name, email_address)
+  
+  
+  
   remDr$findElement(using = 'name', value = "snplist_fileupload")$sendKeysToElement(list(tFile))
   remDr$findElement(using = 'name', value = "super_population")$sendKeysToElement(list(super_population))
   if ( distance_type == 'kb' ){
@@ -153,9 +166,13 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
   remDr$findElement(using = 'name', value = "email_address")$sendKeysToElement(list(email_address))
   remDr$findElement(using = 'class', value = 'btn-success')$clickElement()
   webElem <- remDr$findElement(using = 'class', value = 'btn-success')
+  
   urlOut <- webElem$getElementAttribute('href')[[1]]
+  
   message('Results can be downloaded from ',webElem$getElementAttribute('href')[[1]])
+  
   remDr$close()
   rD$server$stop()
+  
   return(urlOut)
 }
