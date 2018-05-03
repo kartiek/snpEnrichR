@@ -39,7 +39,7 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
                           clump_input = TRUE, clump_r2 = seq(0.1,0.9,0.1), clump_kb = seq(100,1000,100),
                           exclude_input_SNPs = TRUE, exclude_HLA_SNPs = TRUE,
                           email_address, job_name){
-<<<<<<< HEAD
+
   library(RSelenium)
   tFile <- tempfile(fileext = '.txt')
   readr::write_tsv(as.data.frame(snplist),tFile)
@@ -101,11 +101,8 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
   if(missing(email_address)){
     stop("Please provide an email address", call. = FALSE) }
   else if(! is.character(email_address))  {stop("Parameter email_address should be a string.", call. = FALSE)}
-  rD <- rsDriver(verbose = FALSE)#, browser = 'phantomjs')
-=======
-  
+  #rD <- rsDriver(verbose = FALSE)#, browser = 'phantomjs')
   rD <- rsDriver(verbose = FALSE, browser = 'phantomjs')
->>>>>>> 86760a5787d00c5c180b11fc70633afd27981962
   remDr <- rD$client
   
   remDr$navigate(snpSnapURL)
