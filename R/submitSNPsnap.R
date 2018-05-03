@@ -101,12 +101,12 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
   if(missing(email_address)){
     stop("Please provide an email address", call. = FALSE) }
   else if(! is.character(email_address))  {stop("Parameter email_address should be a string.", call. = FALSE)}
-  #rD <- rsDriver(verbose = FALSE)#, browser = 'phantomjs')
-  rD <- rsDriver(verbose = FALSE, browser = 'phantomjs')
+  rD <- rsDriver(verbose = FALSE)#, browser = 'phantomjs')
+  #rD <- rsDriver(verbose = FALSE, browser = 'phantomjs')
   remDr <- rD$client
   
   remDr$navigate(snpSnapURL)
-  
+  snplist_fileupload<-tFile
   aplyArgs <- c(snplist_fileupload, super_population, max_freq_deviation, max_genes_count_deviation,
                 max_distance_deviation, max_ld_buddy_count_deviation, ld_buddy_cutoff, 
                 N_sample_sets, job_name, email_address)
