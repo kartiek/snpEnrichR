@@ -21,7 +21,7 @@
 #' @param exclude_input_SNPs a logical value to exclude input SNPs in matched SNPs.
 #' @param exclude_HLA_SNPs a logical value to exclude HLA SNPs.
 #' @param email_address Your email address.
-#' @param ChainFilePath a UCSC chain format file to convert genome coordinates of the SNPs into hg19. 
+#' @param ChainFilePath a UCSC chain format file to convert genome coordinates of the SNPs into genome build used by SNPsnap.  
 #' @param job_name Job name. SNPsnap results are written in a zip file called SNPsnap_jobname.
 #'
 #' @return Returns a URL from which results can be downloaded
@@ -58,11 +58,12 @@ submitSNPsnap <- function(snplist, super_population = c('EUR','EAS','WAFR'),
                                                        keep.extra.columns=TRUE)))
     seqlevelsStyle(snpObjects) <- "UCSC"
     snpObjectsLiftedOver<-unlist(liftOver(snpObjects, ch))
+    seqlevelsStyle(snpObjectsLiftedOver) <- "Ensembl"
     snpsNewCoords<-data.frame(snpObjectsLiftedOver)
     snplist <- apply(snpsNewCoords[,1:2],
                      1,
                      function(x) 
-                        gsub("chr","", paste(trimws(x), collapse =":")))
+                        paste(trimws(x), collapse =":"))
   }
   tFile <- tempfile(fileext = '.txt')
   readr::write_tsv(as.data.frame(snplist),tFile)
