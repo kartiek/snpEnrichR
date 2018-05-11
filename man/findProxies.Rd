@@ -8,7 +8,7 @@ findProxies(path2PlinkPrefix, snplist, ld_window_kb = 1000,
   ld_window_r2 = 0.8, path2Proxies)
 }
 \arguments{
-\item{path2PlinkPrefix}{Plink bfile parameter. It is the path to reference directory including prefix of the plink reference files bed, bim and fam.}
+\item{path2PlinkPrefix}{Plink bfile parameter. It is the path to reference directory including prefix of the plink reference files bed, bim and fam. For preprocessed files, see library(snpEnrichR).}
 
 \item{ld_window_kb}{Plink parameter ld_window_kb denotes the maximum distance between LD buddies (default is 1000).}
 

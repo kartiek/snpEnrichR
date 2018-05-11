@@ -4,7 +4,7 @@
 #' computes the clumped SNP in the vector. The output contains all SNPs without clumping and one 
 #' representative for every clump. 
 #'    
-#' @param plinkPathPrefix Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam.
+#' @param plinkPathPrefix Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam. For preprocessed files, see library(snpEnrichR)
 #' @param snplist Character vector of snps.
 #' @param outputPath A character string is the Path to output file. 
 #' @param clump_r2 R2 cutoff for clumping. 

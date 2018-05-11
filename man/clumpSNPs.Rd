@@ -7,7 +7,7 @@
 clumpSNPs(plinkPathPrefix, snplist, outputPath, clump_r2, clump_kb)
 }
 \arguments{
-\item{plinkPathPrefix}{Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam.}
+\item{plinkPathPrefix}{Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam. For preprocessed files, see library(snpEnrichR)}
 
 \item{snplist}{Character vector of snps.}
 
