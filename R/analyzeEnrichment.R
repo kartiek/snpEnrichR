@@ -15,6 +15,8 @@
 #' @param genomicRegionsName The name describing the genomic regions.
 #' @param cores The number of cores use in parallel computation. 
 #' @param resDir Path to directory where the results are stored.
+#' @param ChainFilePath a UCSC chain format file to map the genomic regions into hg19.
+#' @param
 #' 
 #' @return None
 #' 
@@ -30,7 +32,17 @@
 #' @examples
 #'function(regionPath,SNPsnapPath,numberOfRandomSNPsets,proxyPathPrefix,traitShort,genomicRegionsName,cores,resDir)
 
-analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPsnapPath,numberOfRandomSNPsets,proxyPathPrefix,traitShort,genomicRegionsName,cores,resDir,traitsLong=NULL)
+analyzeEnrichment <-function(regionPath,
+                             regionHeader=c('chr','start','end'),
+                             SNPsnapPath,
+                             numberOfRandomSNPsets,
+                             proxyPathPrefix,
+                             traitShort,
+                             genomicRegionsName,
+                             cores,
+                             resDir,
+                             traitsLong=NULL,
+                             ChainFilePath=NULL)
 {
   library(GenomicFeatures)
   library(readr)
@@ -40,10 +52,21 @@ analyzeEnrichment <-function(regionPath,regionHeader=c('chr','start','end'),SNPs
   library(ggplot2)
 
   
-  regions <- as.data.frame(read.table(regionPath))
-  colnames(regions ) <-regionHeader
-  f2 <- with(regions ,GRanges(chr,IRanges(start = start,end = end)))
+  regions <- as.data.frame(read_tsv(regionPath))
+  colnames(regions )[1:3] <-regionHeader
 
+  f2 <- makeGRangesFromDataFrame(regions, 
+                                 keep.extra.columns=FALSE,
+                                 start.field="start",
+                                 end.field="end",
+                                 starts.in.df.are.0based=FALSE)
+  if (! is.null(ChainFilePath)) {
+    seqlevelsStyle(f2) <- "UCSC"
+    ch = import.chain(ChainFilePath)
+    f2<-unlist(liftOver(f2, ch))
+  }
+  f2=reduce(f2)
+  
   # Read SNP data
   getSNPDat <- function(x){
   nc=max(count.fields(file.path(paste(SNPsnapPath,x,sep=''),"matched_snps.txt"),sep="\t"))
