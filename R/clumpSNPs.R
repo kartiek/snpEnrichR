@@ -4,7 +4,7 @@
 #' computes the clumped SNP in the vector. The output contains all SNPs without clumping and one 
 #' representative for every clump. 
 #'    
-#' @param plinkPathPrefix Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam.
+#' @param plinkPathPrefix Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam. For preprocessed files, see library(snpEnrichR).
 #' @param snplist Character vector of snps.
 #' @param outputPath A character string is the Path to output file. 
 #' @param clump_r2 R2 cutoff for clumping. 
@@ -18,9 +18,33 @@
 #' @references Chang, C. C., Chow, C. C., Tellier, L. C., Vattikuti, S., Purcell, S. M., Lee, J. J. (2015). Second-generation PLINK: rising to the challenge of larger and richer datasets. \emph{Gigascience}, 4(1), 7.
 #' @references Purcell S.M., Chang C.C. \emph{PLINK 1.9} \url{ www.cog-genomics.org/plink/1.9/}.
 
-clumpSNPs <- function(plinkPathPrefix,snplist,outputPath,clump_r2,clump_kb) {
-    P=rep(0,length=length(snplist))
-    snps <- cbind(SNP=snplist,P)
+clumpSNPs <- function(plinkPathPrefix,snplist,outputPath,clump_r2,clump_kb,ChainFilePath=NULL) {
+
+  if (! is.null(ChainFilePath)) {
+    print('convert coordinates')
+    ch = import.chain(ChainFilePath)
+    scs <- unlist(sapply(snplist,function(x) strsplit(x,':'),USE.NAMES = F))
+    snpTable <- data.frame(cbind(scs[seq(1,length(scs),by=2)],
+                                 scs[seq(2,length(scs),by=2)],
+                                 scs[seq(2,length(scs),by=2)]
+    ),stringsAsFactors = F)
+    colnames(snpTable)<-c('chr','start','end')
+    
+    snpObjects <- sort(unique(makeGRangesFromDataFrame(snpTable, 
+                                                       seqnames.field="chr",
+                                                       keep.extra.columns=TRUE)))
+    seqlevelsStyle(snpObjects) <- "UCSC"
+    snpObjectsLiftedOver<-unlist(liftOver(snpObjects, ch))
+    seqlevelsStyle(snpObjectsLiftedOver) <- "Ensembl"
+    snpsNewCoords<-data.frame(snpObjectsLiftedOver)
+    snplist <- apply(snpsNewCoords[,1:2],
+                     1,
+                     function(x) 
+                       paste(trimws(x), collapse =":"))
+  }    
+  
+  P=rep(0,length=length(snplist))
+  snps <- cbind(SNP=snplist,P)
     
     print('SNPS read')
     tmpfilename <- tempfile(fileext = '.txt')

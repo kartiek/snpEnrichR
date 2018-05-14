@@ -4,10 +4,11 @@
 \alias{clumpSNPs}
 \title{Decipher a set of non-clumped SNPs from a list of SNPs}
 \usage{
-clumpSNPs(plinkPathPrefix, snplist, outputPath, clump_r2, clump_kb)
+clumpSNPs(plinkPathPrefix, snplist, outputPath, clump_r2, clump_kb,
+  ChainFilePath = NULL)
 }
 \arguments{
-\item{plinkPathPrefix}{Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam.}
+\item{plinkPathPrefix}{Path to reference directory, must contain the prefix of the plink reference files bed, bim and fam. For preprocessed files, see library(snpEnrichR).}
 
 \item{snplist}{Character vector of snps.}
 

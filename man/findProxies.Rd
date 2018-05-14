@@ -5,16 +5,18 @@
 \title{Find proxies to SNPs using plink}
 \usage{
 findProxies(path2PlinkPrefix, snplist, ld_window_kb = 1000,
-  ld_window_r2 = 0.8, path2Proxies)
+  ld_window_r2 = 0.8, path2Proxies, ChainFilePath = NULL)
 }
 \arguments{
-\item{path2PlinkPrefix}{Plink bfile parameter. It is the path to reference directory including prefix of the plink reference files bed, bim and fam.}
+\item{path2PlinkPrefix}{Plink bfile parameter. It is the path to reference directory including prefix of the plink reference files bed, bim and fam. For preprocessed files, see library(snpEnrichR).}
 
 \item{ld_window_kb}{Plink parameter ld_window_kb denotes the maximum distance between LD buddies (default is 1000).}
 
 \item{ld_window_r2}{Plink parameter ld_window_r2 denoted the minimum correlation  between LD buddies (default is 0.8).}
 
-\item{path2Proxies}{Path to directory where the result will be written.}
+\item{path2Proxies}{Path to directory where the result will be written. Must contain prefix for the output files.}
+
+\item{ChainFilePath}{a UCSC chain format file to convert genome coordinates of the SNPs into genome build used by SNPsnap.}
 
 \item{path2leadSNPList}{Full path to the SNP list.}
 }

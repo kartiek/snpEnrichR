@@ -4,7 +4,9 @@ Title: Methods for automating enrichment analysis of GWAS SNPs
 Version: 0.0.1
 Author: Kari Nousiainen, Kartiek Kanduri
 Maintainer: Kartiek Kanduri <kartiek.kanduri@gmail.com>
-Description: This packages contains methods for automating and testing enrichment of GWAS SNPs among genomic features.
+Description: This packages contains methods for automating and testing enrichment of GWAS SNPs among 
+  genomic features. Link https://aaltofi-my.sharepoint.com/:u:/g/personal/kari_nousiainen_aalto_fi/EVztXs9XZ89KqwXXXwBR3hQB9xIi_4L0QF_chy2VsCIpyA?e=4%3aken1hy%3aorigemail contains a shell script to prepare 1000 Genomes
+  phase 3 data into plink file formats and preprocessed files of all populations. 
 License: GPL
 LazyData: TRUE
 RoxygenNote: 6.0.1

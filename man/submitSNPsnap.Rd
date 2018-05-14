@@ -11,7 +11,7 @@ submitSNPsnap(snplist, super_population = c("EUR", "EAS", "WAFR"),
   N_sample_sets, annotate_matched = FALSE, annotate_input = FALSE,
   clump_input = TRUE, clump_r2 = seq(0.1, 0.9, 0.1), clump_kb = seq(100,
   1000, 100), exclude_input_SNPs = TRUE, exclude_HLA_SNPs = TRUE,
-  email_address, job_name)
+  email_address, job_name, ChainFilePath = NULL)
 }
 \arguments{
 \item{snplist}{List of SNPs.}
@@ -51,6 +51,8 @@ submitSNPsnap(snplist, super_population = c("EUR", "EAS", "WAFR"),
 \item{email_address}{Your email address.}
 
 \item{job_name}{Job name. SNPsnap results are written in a zip file called SNPsnap_jobname.}
+
+\item{ChainFilePath}{a UCSC chain format file to convert genome coordinates of the SNPs into genome build used by SNPsnap.}
 }
 \value{
 Returns a URL from which results can be downloaded

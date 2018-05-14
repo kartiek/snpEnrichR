@@ -16,7 +16,6 @@
 #' @param cores The number of cores use in parallel computation. 
 #' @param resDir Path to directory where the results are stored.
 #' @param ChainFilePath a UCSC chain format file to map the genomic regions into hg19.
-#' @param
 #' 
 #' @return None
 #' 

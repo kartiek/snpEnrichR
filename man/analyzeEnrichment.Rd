@@ -6,7 +6,8 @@
 \usage{
 analyzeEnrichment(regionPath, regionHeader = c("chr", "start", "end"),
   SNPsnapPath, numberOfRandomSNPsets, proxyPathPrefix, traitShort,
-  genomicRegionsName, cores, resDir, traitsLong = NULL)
+  genomicRegionsName, cores, resDir, traitsLong = NULL,
+  ChainFilePath = NULL)
 }
 \arguments{
 \item{regionPath}{Path to file that contains the genomic regions.}
@@ -28,6 +29,8 @@ analyzeEnrichment(regionPath, regionHeader = c("chr", "start", "end"),
 \item{resDir}{Path to directory where the results are stored.}
 
 \item{traitsLong}{Vector of official name for traits.}
+
+\item{ChainFilePath}{a UCSC chain format file to map the genomic regions into hg19.}
 }
 \value{
 None
