@@ -9,7 +9,7 @@ author:
   affiliation: 
     - Aalto Univerisity School of Science
     - University of Turku
-  email: Kartiek.Kanduri@Aalto.FI 
+  email: Kartiek.Kanduri@gmail.com
 date: "`r Sys.Date()`"
 package: snpEnrichR
 output:   BiocStyle::html_document
